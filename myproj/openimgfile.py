@@ -3,6 +3,7 @@ import shutil  # python's filestream lib
 import requests  # a HTTP handler
 import cv2  # openCV
 from threading import Thread  # we're using threads
+import keyboard  # Using module keyboard
 
 class InfiniteLoop(Thread):
     def __init__(self, target):  # initialise variables and class input arguments
@@ -52,6 +53,8 @@ def main():
     # start timer
     t = InfiniteLoop(loopImg)
     t.start()
+    if keyboard.is_pressed('q'):  # if key 'q' is pressed
+        t.stop()
 
 
 if __name__ == "__main__":  # define main function
