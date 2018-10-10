@@ -13,6 +13,9 @@ root = Tk()
 #root.geometry("800x420")
 panelA = None
 panelB = None
+panelC = None
+panelD = None
+panelE = None
 
 
 class InfiniteTimer:
@@ -86,7 +89,7 @@ def loopImg():
     # copy file to path
     copy_urlimg_to_path("http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=09ddfacb-ed1f-23bb-65a9-c42f9ccdfb11&time=latest&rotate=180&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json")
     img = cv2.imread("img.jpg") # read file
-    scaleX, scaleY = rescaleimg(640, 420, img)  # get scaling proportions
+    scaleX, scaleY = rescaleimg(610, 400, img)  # get scaling proportions
     # OpenCV represents images in BGR order; however PIL represents
     # images in RGB order, so we need to swap the channels
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -104,26 +107,44 @@ def loopImg():
 
 def panelupdate(image, panelwidth, panelheight):
     # grab a reference to the image panels
-    global panelA, panelB
+    global panelA, panelB, panelC, panelD, panelE
     # if the panels are None, initialize them
-    if panelA is None or panelB is None:
+    if panelA is None or panelB is None or panelC is None or panelD is None or panelE is None:
         # the first panel will store our original image
         panelA = Label(image=image)
         panelA.Image = image
-        panelA.pack(side=RIGHT, padx=10, pady=10)
+        panelA.grid(row=0, column=0, padx=10, pady=10)
 
         # while the second panel will store the edge map
         panelB = Label(image=image)
         panelB.Image = image
-        panelB.pack(side=RIGHT, padx=10, pady=10)
+        panelB.grid(row=0, column=1, padx=10, pady=10)
+
+        panelC = Label(image=image)
+        panelC.Image = image
+        panelC.grid(row=0, column=2, padx=10, pady=10)
+
+        panelD = Label(image=image)
+        panelD.Image = image
+        panelD.grid(row=1, column=0, padx=10, pady=10)
+
+        panelE = Label(image=image)
+        panelE.Image = image
+        panelE.grid(row=1, column=1, padx=10, pady=10)
 
     # otherwise, update the image panels
     else:
         # update the panels
         panelA.configure(image=image, width=panelwidth, height=panelheight)
         panelB.configure(image=image, width=panelwidth, height=panelheight)
+        panelC.configure(image=image, width=panelwidth, height=panelheight)
+        panelD.configure(image=image, width=panelwidth, height=panelheight)
+        panelE.configure(image=image, width=panelwidth, height=panelheight)
         panelA.Image = image
         panelB.Image = image
+        panelC.Image = image
+        panelD.Image = image
+        panelE.Image = image
 
 
 def main():
