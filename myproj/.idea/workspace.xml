@@ -14,27 +14,30 @@
         <counts>
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="7" />
+          <entry key="png" value="1" />
+          <entry key="py" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="7" />
+          <entry key="Image" value="1" />
+          <entry key="Python" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="52" />
+          <entry key="py" value="1347" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="52" />
+          <entry key="Python" value="1347" />
         </counts>
       </usages-collector>
     </session>
@@ -104,13 +107,41 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="465">
-              <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
+              <caret line="150" selection-start-line="150" selection-end-line="150" />
               <folding>
                 <element signature="e#11#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/openimgfile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="852">
+              <caret line="52" column="21" selection-start-line="52" selection-start-column="21" selection-end-line="52" selection-end-column="21" />
+              <folding>
+                <element signature="e#32#72#0" expanded="true" />
+                <marker date="1539195698280" expanded="true" signature="585:590" ph="..." />
+                <marker date="1539195698280" expanded="true" signature="1036:1596" ph="..." />
+                <marker date="1539195698280" expanded="true" signature="2070:2075" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/infinitethreadclass.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="139">
+              <caret line="11" column="8" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+                <marker date="1539195376786" expanded="true" signature="1338:1358" ph="..." />
               </folding>
             </state>
           </provider>
@@ -138,11 +169,14 @@
         <option value="$PROJECT_DIR$/mnist_deep.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/retrain.py" />
+        <option value="$PROJECT_DIR$/infinitethreadclass.py" />
+        <option value="$PROJECT_DIR$/openimgfile.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="819" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1800" />
+    <option name="y" value="248" />
     <option name="width" value="1283" />
     <option name="height" value="1032" />
   </component>
@@ -186,8 +220,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test">
-    <configuration name="add_two_numbers_via_TensorFlow_TensorBoard" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.openimgfile">
+    <configuration name="infinitethreadclass" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="myproj" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -199,7 +233,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/add_two_numbers_via_TensorFlow_TensorBoard.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/infinitethreadclass.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -229,7 +263,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="mnist_softmax" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="openimgfile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="myproj" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -241,7 +275,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mnist_softmax.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/openimgfile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -293,19 +327,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.add_two_numbers_via_TensorFlow_TensorBoard" />
-      <item itemvalue="Python.mnist_softmax" />
       <item itemvalue="Python.mnist_deep" />
       <item itemvalue="Python.retrain" />
       <item itemvalue="Python.test" />
+      <item itemvalue="Python.openimgfile" />
+      <item itemvalue="Python.infinitethreadclass" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.openimgfile" />
+        <item itemvalue="Python.infinitethreadclass" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.retrain" />
         <item itemvalue="Python.mnist_deep" />
-        <item itemvalue="Python.mnist_softmax" />
-        <item itemvalue="Python.add_two_numbers_via_TensorFlow_TensorBoard" />
       </list>
     </recent_temporary>
   </component>
@@ -332,21 +366,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="3858" height="2130" extended-state="6" />
+    <frame x="1911" y="101" width="2578" height="1458" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.124801695" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.094324544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.14824249" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.14794733" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3295583" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3295583" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32920218" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3295583" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -414,9 +448,36 @@
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
-          <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
+          <caret line="150" selection-start-line="150" selection-end-line="150" />
           <folding>
             <element signature="e#11#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/infinitethreadclass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="11" column="8" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+            <marker date="1539195376786" expanded="true" signature="1338:1358" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openimgfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="852">
+          <caret line="52" column="21" selection-start-line="52" selection-start-column="21" selection-end-line="52" selection-end-column="21" />
+          <folding>
+            <element signature="e#32#72#0" expanded="true" />
+            <marker date="1539195698280" expanded="true" signature="585:590" ph="..." />
+            <marker date="1539195698280" expanded="true" signature="1036:1596" ph="..." />
+            <marker date="1539195698280" expanded="true" signature="2070:2075" ph="..." />
           </folding>
         </state>
       </provider>
