@@ -1,8 +1,8 @@
 from threading import Timer  # we use threads
-import keyboard  # Using module keyboard
+from msvcrt import getch  # get keypress
 
 
-class InfiniteTimer():
+class InfiniteTimer:
     """A Timer class that does not stop, unless you want it to."""
 
     def __init__(self, seconds, target):  # initialise variables and class input arguments
@@ -32,10 +32,10 @@ class InfiniteTimer():
 
     def cancel(self):
         if self.thread is not None:
-            self._should_continue = False # Just in case thread is running and cancel fails.
+            self._should_continue = False  # Just in case thread is running and cancel fails.
             self.thread.cancel()
         else:
-            print("Timeqr never started or failed to initialize.")
+            print("Timer never started or failed to initialize.")
 
 
 def mytmrFunction():
@@ -46,8 +46,6 @@ def main():
     # start timer
     t = InfiniteTimer(0.1, mytmrFunction)  # every 0.1s
     t.start()
-    if keyboard.is_pressed('q'):  # if key 'q' is pressed
-        t.stop()
 
 
 if __name__ == "__main__":  # define main function
