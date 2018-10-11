@@ -23,7 +23,7 @@ def myloopFunction(width):
 
 def main():
     # start timer
-    t = InfiniteLoop(myloopFunction,1)  # every 0.1s
+    t = InfiniteLoop(myloopFunction, 1)  # every 0.1s
     t.start()
 
 
