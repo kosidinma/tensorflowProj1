@@ -21,7 +21,6 @@ imagedir3 = "img3.jpg"
 imagedir4 = "img4.jpg"
 imagedir5 = "img5.jpg"
 
-
 url1 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=09ddfacb-ed1f-23bb-65a9-c42f9ccdfb11&time=latest&rotate=180&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
 url2 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=a30471e7-ebdd-ddb3-06f6-d4b465e0dfae&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
 url3 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=238eec33-0fe4-97b5-1013-9e503b9b5882&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
@@ -85,23 +84,23 @@ class LoopImg:
             if self.imagenum == 1:
                 panelA = Label(image=self.image)
                 panelA.Image = self.image
-                panelA.grid(row=0, column=0, padx=10, pady=10)
+                panelA.grid(row=0, column=0, rowspan=3, columnspan=2, padx=10, pady=10)
             elif self.imagenum == 2:
                 panelB = Label(image=self.image)
                 panelB.Image = self.image
-                panelB.grid(row=0, column=1, padx=10, pady=10)
+                panelB.grid(row=0, column=3, rowspan=3, columnspan=2, padx=10, pady=10)
             elif self.imagenum == 3:
                 panelC = Label(image=self.image)
                 panelC.Image = self.image
-                panelC.grid(row=0, column=2, padx=10, pady=10)
+                panelC.grid(row=0, column=6, rowspan=3, columnspan=2, padx=10, pady=10)
             elif self.imagenum == 4:
                 panelD = Label(image=self.image)
                 panelD.Image = self.image
-                panelD.grid(row=1, column=0, padx=10, pady=10)
+                panelD.grid(row=4, column=0, rowspan=3, columnspan=2, padx=10, pady=10)
             elif self.imagenum == 5:
                 panelE = Label(image=self.image)
                 panelE.Image = self.image
-                panelE.grid(row=1, column=1, padx=10, pady=10)
+                panelE.grid(row=4, column=3, rowspan=3, columnspan=2, padx=10, pady=10)
 
         # otherwise, update the image panels
         else:
@@ -177,6 +176,8 @@ class LoopImg:
 
 
 def main():
+    checkBoxCtrl = 0
+    mylbl = "Toggle Test Mode"
     # start timer threads
     imgInst1 = LoopImg(url1, 1, imagedir1)
     imgInst1.run();
@@ -188,6 +189,41 @@ def main():
     imgInst4.run();
     imgInst5 = LoopImg(url5, 5, imagedir5)
     imgInst5.run();
+
+    # add buttons
+    # width is in %
+    #img1
+    btn1_good = Button(root, text="GOOD", width=30, command="")
+    btn1_good.grid(row=3, column=0, padx="10", pady="10")
+    btn1_bad = Button(root, text="BAD", width=30, command="")
+    if checkBoxCtrl == 1:
+        btn1_bad.grid(row=3, column=1, padx="10", pady="10")
+    else:
+        btn1_bad.grid_forget()
+    # img2
+    btn2_good = Button(root, text="GOOD", width=30, command="")
+    btn2_good.grid(row=3, column=3, padx="10", pady="10")
+    btn2_bad = Button(root, text="BAD", width=30, command="")
+    btn2_bad.grid(row=3, column=4, padx="10", pady="10")
+    # img3
+    btn3_good = Button(root, text="GOOD", width=30, command="")
+    btn3_good.grid(row=3, column=6, padx="10", pady="10")
+    btn3_bad = Button(root, text="BAD", width=30, command="")
+    btn3_bad.grid(row=3, column=7, padx="10", pady="10")
+    # img4
+    btn4_good = Button(root, text="GOOD", width=30, command="")
+    btn4_good.grid(row=7, column=0, padx="10", pady="10")
+    btn4_bad = Button(root, text="BAD", width=30, command="")
+    btn4_bad.grid(row=7, column=1, padx="10", pady="10")
+    # img5
+    btn5_good = Button(root, text="GOOD", width=30, command="")
+    btn5_good.grid(row=7, column=3, padx="10", pady="10")
+    btn5_bad = Button(root, text="BAD", width=30, command="")
+    btn5_bad.grid(row=7, column=4, padx="10", pady="10")
+
+    # checkbox   https://stackoverflow.com/questions/49724170/how-to-disable-a-button-by-a-checkbox-in-tkinter
+    checkBoxCtrl = IntVar()
+    Checkbutton(root, text=mylbl, variable=checkBoxCtrl).grid(row=8, column=0, sticky=W, padx="10", pady="20")
 
     # kick off the GUI
     root.mainloop()
