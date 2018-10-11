@@ -23,7 +23,10 @@ imagedir5 = "img5.jpg"
 
 
 url1 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=09ddfacb-ed1f-23bb-65a9-c42f9ccdfb11&time=latest&rotate=180&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
-
+url2 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=a30471e7-ebdd-ddb3-06f6-d4b465e0dfae&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
+url3 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=238eec33-0fe4-97b5-1013-9e503b9b5882&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
+url4 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=dd18d158-c192-9e19-3b67-05e20742d105&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
+url5 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=75061ddd-ba25-286a-be39-dcbce5fb5e67&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json";
 
 # class to run a background thread on a timer event
 class InfiniteTimer:
@@ -169,21 +172,21 @@ class LoopImg:
         # cv2.waitKey(500)  # keep image for 500ms
 
     def run(self):
-        img_thread1 = InfiniteTimer(0.5, self.main)
-        img_thread1.start()
+        img_thread = InfiniteTimer(0.5, self.main)
+        img_thread.start()
 
 
 def main():
     # start timer threads
     imgInst1 = LoopImg(url1, 1, imagedir1)
     imgInst1.run();
-    imgInst2 = LoopImg(url1, 2, imagedir2)
+    imgInst2 = LoopImg(url2, 2, imagedir2)
     imgInst2.run();
-    imgInst3 = LoopImg(url1, 3, imagedir3)
+    imgInst3 = LoopImg(url3, 3, imagedir3)
     imgInst3.run();
-    imgInst4 = LoopImg(url1, 4, imagedir4)
+    imgInst4 = LoopImg(url4, 4, imagedir4)
     imgInst4.run();
-    imgInst5 = LoopImg(url1, 5, imagedir5)
+    imgInst5 = LoopImg(url5, 5, imagedir5)
     imgInst5.run();
 
     # kick off the GUI
