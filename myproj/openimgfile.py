@@ -436,31 +436,31 @@ def testbtn_init_():
     txt1_test = Label(root, text="")
     btn1_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
     btn1_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
-    btn1_add_unclassified = Button(root, text="USELESS", width=30, command="")
+    btn1_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img1.jpg", 1, "random_image"))
     # img2
     btn2_test = Button(root, text="TEST", width=30, command=partial(getresult, "img2.jpg", 0, 2, "testIMG2"))
     txt2_test = Label(root, text="")
     btn2_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
     btn2_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
-    btn2_add_unclassified = Button(root, text="USELESS", width=30, command="")
+    btn2_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img2.jpg", 1, "random_image"))
     # img3
     btn3_test = Button(root, text="TEST", width=30, command=partial(getresult, "img3.jpg", 0, 3, "testIMG3"))
     txt3_test = Label(root, text="")
     btn3_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
     btn3_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
-    btn3_add_unclassified = Button(root, text="USELESS", width=30, command="")
+    btn3_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img3.jpg", 1, "random_image"))
     # img4
     btn4_test = Button(root, text="TEST", width=30, command=partial(getresult, "img4.jpg", 0, 4, "testIMG4"))
     txt4_test = Label(root, text="")
     btn4_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
     btn4_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
-    btn4_add_unclassified = Button(root, text="USELESS", width=30, command="")
+    btn4_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img4.jpg", 1, "random_image"))
     # img5
     btn5_test = Button(root, text="TEST", width=30, command=partial(getresult, "img5.jpg", 0, 5, "testIMG5"))
     txt5_test = Label(root, text="")
     btn5_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
     btn5_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
-    btn5_add_unclassified = Button(root, text="USELESS", width=30, command="")
+    btn5_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img5.jpg", 1, "random_image"))
 
 
 def showclassificationbtns():
