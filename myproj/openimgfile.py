@@ -288,7 +288,7 @@ def getresult(myimgpath, num, textboxnum, testimgname):
     tfFileWriter = tf.summary.FileWriter(os.getcwd())
     tfFileWriter.add_graph(sess.graph)
     tfFileWriter.close()
-    showresultfeatures()  # show result variables
+    showresultfeatures(textboxnum)  # show result variables
     showtestbtns()  # show the buttons again
     updateResults(textboxnum, textstr)
 # end main
@@ -340,7 +340,7 @@ def checkIfNecessaryPathsAndFilesExist():
 def copytofolder(myimgpath, num, folderpath):
     # num = 1 ===> training path, anything else => testing path
     myimgpath = os.getcwd() + "/" + myimgpath
-    if num == 1: # append file
+    if num == 1:  # append file
         # path to folders of image, timestamp added to give image a distinct name
         folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
         os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
@@ -460,27 +460,30 @@ def showtestbtns():
     btn5_test.grid(row=8, column=3, padx="10", pady="10", sticky=W)
 
 
-def showresultfeatures():
+def showresultfeatures(textboxnum):
     # get global references
     global txt1_test, btn1_addgood, btn1_addbad, txt2_test, btn2_addgood, btn2_addbad, txt3_test, btn3_addgood,\
         btn3_addbad, txt4_test, btn4_addgood, btn4_addbad, txt5_test, btn5_addgood, btn5_addbad
-    # textboxes
-    txt1_test.grid(row=4, column=0, padx="10", pady="10", sticky=W)
-    txt2_test.grid(row=4, column=3, padx="10", pady="10", sticky=W)
-    txt3_test.grid(row=4, column=6, padx="10", pady="10", sticky=W)
-    txt4_test.grid(row=9, column=0, padx="10", pady="10", sticky=W)
-    txt5_test.grid(row=9, column=3, padx="10", pady="10", sticky=W)
-    # buttons
-    btn1_addgood.grid(row=3, column=1, padx="10", pady="10", sticky=W)
-    btn2_addgood.grid(row=3, column=4, padx="10", pady="10", sticky=W)
-    btn3_addgood.grid(row=3, column=7, padx="10", pady="10", sticky=W)
-    btn4_addgood.grid(row=8, column=1, padx="10", pady="10", sticky=W)
-    btn5_addgood.grid(row=8, column=4, padx="10", pady="10", sticky=W)
-    btn1_addbad.grid(row=4, column=1, padx="10", pady="10", sticky=W)
-    btn2_addbad.grid(row=4, column=4, padx="10", pady="10", sticky=W)
-    btn3_addbad.grid(row=4, column=7, padx="10", pady="10", sticky=W)
-    btn4_addbad.grid(row=9, column=1, padx="10", pady="10", sticky=W)
-    btn5_addbad.grid(row=9, column=4, padx="10", pady="10", sticky=W)
+    if textboxnum == 1:
+        txt1_test.grid(row=4, column=0, padx="10", pady="10", sticky=W + E + N + S)
+        btn1_addgood.grid(row=3, column=1, padx="10", pady="10", sticky=W)
+        btn1_addbad.grid(row=4, column=1, padx="10", pady="10", sticky=W)
+    elif textboxnum == 2:
+        txt2_test.grid(row=4, column=3, padx="10", pady="10", sticky=W + E + N + S)
+        btn2_addgood.grid(row=3, column=4, padx="10", pady="10", sticky=W)
+        btn2_addbad.grid(row=4, column=4, padx="10", pady="10", sticky=W)
+    elif textboxnum == 3:
+        txt3_test.grid(row=4, column=6, padx="10", pady="10", sticky=W + E + N + S)
+        btn3_addgood.grid(row=3, column=7, padx="10", pady="10", sticky=W)
+        btn3_addbad.grid(row=4, column=7, padx="10", pady="10", sticky=W)
+    elif textboxnum == 4:
+        txt4_test.grid(row=9, column=0, padx="10", pady="10", sticky=W + E + N + S)
+        btn4_addgood.grid(row=8, column=1, padx="10", pady="10", sticky=W)
+        btn4_addbad.grid(row=9, column=1, padx="10", pady="10", sticky=W)
+    elif textboxnum == 5:
+        txt5_test.grid(row=9, column=3, padx="10", pady="10", sticky=W + E + N + S)
+        btn5_addgood.grid(row=8, column=4, padx="10", pady="10", sticky=W)
+        btn5_addbad.grid(row=9, column=4, padx="10", pady="10", sticky=W)
 
 
 def hidetestbtns():
