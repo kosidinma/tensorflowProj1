@@ -9,8 +9,17 @@ import os
 import os.path
 import time
 from functools import partial
+import tensorflow as tf
+import numpy as np
 
+# module-level variables ##############################################################################################
+RETRAINED_LABELS_TXT_FILE_LOC = os.getcwd() + "/" + "retrained_labels.txt"
+RETRAINED_GRAPH_PB_FILE_LOC = os.getcwd() + "/" + "retrained_graph.pb"
 
+TEST_IMAGES_DIR = os.getcwd() + "/test_images"
+
+SCALAR_RED = (0.0, 0.0, 255.0)
+SCALAR_BLUE = (255.0, 0.0, 0.0)
 # initialize the window toolkit along with the two image panels
 root = Tk()
 #root.geometry("800x420")
@@ -204,15 +213,112 @@ class LoopImg:
         img_thread.start()
 
 
-def copytofolder(myimgpath, folderpath):
-    # path to folders of image, timestamp added to give image a distinct name
+def getresult(myimgpath, num, testimgname):
+    copytofolder(myimgpath, num, testimgname)
+    if not checkIfNecessaryPathsAndFilesExist():
+        return
+    # end if
+    # get a list of classifications from the labels file
+    classifications = []
+    # for each line in the label file . . .
+    for currentLine in tf.gfile.GFile(RETRAINED_LABELS_TXT_FILE_LOC):
+        # remove the carriage return
+        classification = currentLine.rstrip()
+        # and append to the list
+        classifications.append(classification)
+    # end for
+    # load the graph from file
+    with tf.gfile.FastGFile(RETRAINED_GRAPH_PB_FILE_LOC, 'rb') as retrainedGraphFile:
+        # instantiate a GraphDef object
+        graphDef = tf.GraphDef()
+        # read in retrained graph into the GraphDef object
+        graphDef.ParseFromString(retrainedGraphFile.read())
+        # import the graph into the current default Graph, note that we don't need to be concerned with the return value
+        _ = tf.import_graph_def(graphDef, name='')
+    # end with
+    # if the test image directory listed above is not valid, show an error message and bail
+    if not os.path.isdir(TEST_IMAGES_DIR):
+        print("the test image directory does not seem to be a valid directory, check file / directory paths")
+        return
+    # end if
+    with tf.Session() as sess:
+        # for each file in the test images directory . . .
+        for fileName in os.listdir(TEST_IMAGES_DIR):
+            # if the file does not end in .jpg or .jpeg (case-insensitive),
+            # continue with the next iteration of the for loop
+            # added by me: if file isn't the name I expect
+            if not (fileName.lower().endswith(".jpg") or fileName.lower().endswith(".jpeg") or fileName.lower() == testimgname):
+                continue
+            # end if
+
+            # get the file name and full path of the current image file
+            imageFileWithPath = os.path.join(TEST_IMAGES_DIR, fileName)
+            # attempt to open the image with OpenCV
+            openCVImage = cv2.imread(imageFileWithPath)
+            # if we were not able to successfully open the image, continue with the next iteration of the for loop
+            if openCVImage is None:
+                print("unable to open " + fileName + " as an OpenCV image")
+                continue
+            # end if
+            # get the final tensor from the graph
+            finalTensor = sess.graph.get_tensor_by_name('final_result:0')
+            # convert the OpenCV image (numpy array) to a TensorFlow image
+            tfImage = np.array(openCVImage)[:, :, 0:3]
+            # run the network to get the predictions
+            predictions = sess.run(finalTensor, {'DecodeJpeg:0': tfImage})
+            # sort predictions from most confidence to least confidence
+            sortedPredictions = predictions[0].argsort()[-len(predictions[0]):][::-1]
+            # for each prediction . . .
+            for prediction in sortedPredictions:
+                strClassification = classifications[prediction]
+                # if the classification (obtained from the directory name) ends with the letter "s", remove the "s" to change from plural to singular
+                if strClassification.endswith("s"):
+                    strClassification = strClassification[:-1]
+                # end if
+                # get confidence, then get confidence rounded to 2 places after the decimal
+                confidence = predictions[0][prediction]
+                # for any prediction, show the confidence as a ratio to five decimal places
+                print(strClassification + " (" + "{0:.5f}".format(confidence) + ")")
+                break # kosy only wants one loop
+            # end for
+        # end for
+    # end with
+    # write the graph to file so we can view with TensorBoard
+    tfFileWriter = tf.summary.FileWriter(os.getcwd())
+    tfFileWriter.add_graph(sess.graph)
+    tfFileWriter.close()
+# end main
+
+
+def checkIfNecessaryPathsAndFilesExist():
+    if not os.path.exists(TEST_IMAGES_DIR):
+        print('')
+        print('ERROR: TEST_IMAGES_DIR "' + TEST_IMAGES_DIR + '" does not seem to exist')
+        print('Did you set up the test images?')
+        print('')
+        return False
+    # end if
+    if not os.path.exists(RETRAINED_LABELS_TXT_FILE_LOC):
+        print('ERROR: RETRAINED_LABELS_TXT_FILE_LOC "' + RETRAINED_LABELS_TXT_FILE_LOC + '" does not seem to exist')
+        return False
+    # end if
+    if not os.path.exists(RETRAINED_GRAPH_PB_FILE_LOC):
+        print('ERROR: RETRAINED_GRAPH_PB_FILE_LOC "' + RETRAINED_GRAPH_PB_FILE_LOC + '" does not seem to exist')
+        return False
+    # end if
+    return True
+
+
+def copytofolder(myimgpath, num, folderpath):
+    # num = 1 ===> training path, anything else => testing path
     myimgpath = os.getcwd() + "/" + myimgpath
-    print(myimgpath)
-    folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
+    if num == 1:
+        # path to folders of image, timestamp added to give image a distinct name
+        folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
+    else:
+        # for training, use folderpath as image name straight
+        folderpath = os.getcwd() + '/test_images/' + folderpath + ".jpg"
     os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
-    # The with statement simplifies exception handling by encapsulating common preparation and cleanup tasks.
-    # In addition, it will automatically close the file. The with statement provides a way for ensuring
-    # that a clean-up is always used.
     os.rename(myimgpath, folderpath)
 
 
@@ -222,20 +328,20 @@ def classificationbtn_init_():
         panelA, panelB, panelC, panelD, panelE
     # initialize classification buttons
     # WE USE THE "PARTIAL" KEYWORD TO PASS IN ARGS WITH A FUNCTION WHEN ONLY FUNCTION NAME IS EXPECTED
-    btn1_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img1.jpg", "goodFolder1"))
-    btn1_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img1.jpg", "badFolder1"))
+    btn1_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
+    btn1_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
     # img2
-    btn2_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img2.jpg", "goodFolder2"))
-    btn2_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img2.jpg", "badFolder2"))
+    btn2_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
+    btn2_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
     # img3
-    btn3_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img3.jpg", "goodFolder3"))
-    btn3_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img3.jpg", "badFolder3"))
+    btn3_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
+    btn3_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
     # img4
-    btn4_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img4.jpg", "goodFolder4"))
-    btn4_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img4.jpg", "badFolder4"))
+    btn4_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
+    btn4_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
     # img5
-    btn5_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img5.jpg", "goodFolder5"))
-    btn5_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img5.jpg", "badFolder5"))
+    btn5_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
+    btn5_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
 
 
 def testbtn_init_():

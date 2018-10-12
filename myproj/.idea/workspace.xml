@@ -22,38 +22,29 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="png" value="1" />
-          <entry key="py" value="11" />
+          <entry key="py" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
-          <entry key="Python" value="11" />
+          <entry key="Python" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="5340" />
+          <entry key="py" value="5720" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="5340" />
+          <entry key="Python" value="5720" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/add_two_numbers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/add_two_numbers_tensorflow.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,11 +99,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="149" column="12" lean-forward="true" selection-start-line="149" selection-start-column="12" selection-end-line="149" selection-end-column="12" />
+            <state relative-caret-position="421">
+              <caret line="119" column="20" selection-start-line="119" selection-start-column="20" selection-end-line="119" selection-end-column="50" />
               <folding>
                 <element signature="e#11#20#0" expanded="true" />
               </folding>
@@ -121,19 +112,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_editversion.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+              <folding>
+                <element signature="e#11#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/openimgfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="537">
-              <caret line="305" selection-start-line="305" selection-end-line="305" />
+            <state relative-caret-position="115">
+              <caret line="216" column="45" lean-forward="true" selection-start-line="216" selection-start-column="45" selection-end-line="216" selection-end-column="45" />
               <folding>
                 <element signature="e#32#72#0" expanded="true" />
-                <marker date="1539286326503" expanded="true" signature="7872:7877" ph="..." />
-                <marker date="1539286326503" expanded="true" signature="7993:8633" ph="..." />
-                <marker date="1539286326503" expanded="true" signature="8663:11905" ph="..." />
-                <marker date="1539286326503" expanded="true" signature="13521:15142" ph="..." />
-                <marker date="1539286326503" expanded="true" signature="15163:15596" ph="..." />
-                <marker date="1539286326503" expanded="true" signature="15595:15596" ph="..." />
-                <marker date="1539286326503" expanded="true" signature="17694:17732" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="8292:8297" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="13225:13699" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="13729:17001" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="18617:20238" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="20259:20692" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="20691:20692" ph="..." />
+                <marker date="1539302597729" expanded="true" signature="22790:22828" ph="..." />
               </folding>
             </state>
           </provider>
@@ -185,6 +188,7 @@
         <option value="$PROJECT_DIR$/retrain.py" />
         <option value="$PROJECT_DIR$/infinitetimerclass.py" />
         <option value="$PROJECT_DIR$/infinitethreadclass.py" />
+        <option value="$PROJECT_DIR$/test_editversion.py" />
         <option value="$PROJECT_DIR$/openimgfile.py" />
       </list>
     </option>
@@ -208,22 +212,6 @@
               <item name="myproj" type="b2602c69:ProjectViewProjectNode" />
               <item name="myproj" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="myproj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="myproj" type="462c0819:PsiDirectoryNode" />
-              <item name="training_images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="myproj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="myproj" type="462c0819:PsiDirectoryNode" />
-              <item name="training_images" type="462c0819:PsiDirectoryNode" />
-              <item name="badFolder1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="myproj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="myproj" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -246,7 +234,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.openimgfile">
+  <component name="RunManager" selected="Python.test_editversion">
     <configuration name="infinitethreadclass" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="myproj" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -310,27 +298,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="retrain" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="myproj" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/retrain.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="myproj" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -352,20 +319,41 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_editversion" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="myproj" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_editversion.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.retrain" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.openimgfile" />
       <item itemvalue="Python.infinitethreadclass" />
       <item itemvalue="Python.infinitetimerclass" />
+      <item itemvalue="Python.test_editversion" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_editversion" />
         <item itemvalue="Python.openimgfile" />
         <item itemvalue="Python.infinitethreadclass" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.infinitetimerclass" />
-        <item itemvalue="Python.retrain" />
       </list>
     </recent_temporary>
   </component>
@@ -400,7 +388,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295583" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21630804" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16421291" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -490,29 +478,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/openimgfile.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="537">
-          <caret line="305" selection-start-line="305" selection-end-line="305" />
+        <state relative-caret-position="421">
+          <caret line="119" column="20" selection-start-line="119" selection-start-column="20" selection-end-line="119" selection-end-column="50" />
           <folding>
-            <element signature="e#32#72#0" expanded="true" />
-            <marker date="1539286326503" expanded="true" signature="7872:7877" ph="..." />
-            <marker date="1539286326503" expanded="true" signature="7993:8633" ph="..." />
-            <marker date="1539286326503" expanded="true" signature="8663:11905" ph="..." />
-            <marker date="1539286326503" expanded="true" signature="13521:15142" ph="..." />
-            <marker date="1539286326503" expanded="true" signature="15163:15596" ph="..." />
-            <marker date="1539286326503" expanded="true" signature="15595:15596" ph="..." />
-            <marker date="1539286326503" expanded="true" signature="17694:17732" ph="..." />
+            <element signature="e#11#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/test_editversion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="149" column="12" lean-forward="true" selection-start-line="149" selection-start-column="12" selection-end-line="149" selection-end-column="12" />
+        <state>
+          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
           <folding>
             <element signature="e#11#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openimgfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="216" column="45" lean-forward="true" selection-start-line="216" selection-start-column="45" selection-end-line="216" selection-end-column="45" />
+          <folding>
+            <element signature="e#32#72#0" expanded="true" />
+            <marker date="1539302597729" expanded="true" signature="8292:8297" ph="..." />
+            <marker date="1539302597729" expanded="true" signature="13225:13699" ph="..." />
+            <marker date="1539302597729" expanded="true" signature="13729:17001" ph="..." />
+            <marker date="1539302597729" expanded="true" signature="18617:20238" ph="..." />
+            <marker date="1539302597729" expanded="true" signature="20259:20692" ph="..." />
+            <marker date="1539302597729" expanded="true" signature="20691:20692" ph="..." />
+            <marker date="1539302597729" expanded="true" signature="22790:22828" ph="..." />
           </folding>
         </state>
       </provider>
