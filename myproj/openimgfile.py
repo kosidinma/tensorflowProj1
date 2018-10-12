@@ -213,7 +213,8 @@ class LoopImg:
         img_thread.start()
 
 
-def getresult(myimgpath, num, testimgname):
+def getresult(myimgpath, num, textboxnum, testimgname):
+    hidetestbtns()  # don't allow any buttons to show while test is running
     copytofolder(myimgpath, num, testimgname)
     if not checkIfNecessaryPathsAndFilesExist():
         return
@@ -247,7 +248,7 @@ def getresult(myimgpath, num, testimgname):
             # if the file does not end in .jpg or .jpeg (case-insensitive),
             # continue with the next iteration of the for loop
             # added by me: if file isn't the name I expect
-            if not (fileName.lower().endswith(".jpg") or fileName.lower().endswith(".jpeg") or fileName.lower() == testimgname):
+            if not (fileName.lower().endswith(".jpg") or fileName.lower().endswith(".jpeg") or fileName.lower() == (testimgname + ".jpg")):
                 continue
             # end if
 
@@ -278,7 +279,7 @@ def getresult(myimgpath, num, testimgname):
                 # get confidence, then get confidence rounded to 2 places after the decimal
                 confidence = predictions[0][prediction]
                 # for any prediction, show the confidence as a ratio to five decimal places
-                print(strClassification + " (" + "{0:.5f}".format(confidence) + ")")
+                textstr = strClassification + " (" + "{0:.5f}".format(confidence) + ")"
                 break # kosy only wants one loop
             # end for
         # end for
@@ -287,7 +288,34 @@ def getresult(myimgpath, num, testimgname):
     tfFileWriter = tf.summary.FileWriter(os.getcwd())
     tfFileWriter.add_graph(sess.graph)
     tfFileWriter.close()
+    showresultfeatures()  # show result variables
+    showtestbtns()  # show the buttons again
+    updateResults(textboxnum, textstr)
 # end main
+
+
+def updateResults(textboxnum, textstr):
+    # get global references
+    global btn1_test, btn2_test, btn3_test, btn4_test, btn5_test
+    if textboxnum == 1:
+        txt1_test["text"] = textstr
+    elif textboxnum == 2:
+        txt2_test["text"] = textstr
+    elif textboxnum == 3:
+        txt3_test["text"] = textstr
+    elif textboxnum == 4:
+        txt4_test["text"] = textstr
+    elif textboxnum == 5:
+        txt5_test["text"] = textstr
+
+def clearResults():
+    # get global references
+    global txt1_test, txt2_test, txt3_test, txt4_test, txt5_test
+    txt1_test["text"] = ""
+    txt2_test["text"] = ""
+    txt3_test["text"] = ""
+    txt4_test["text"] = ""
+    txt5_test["text"] = ""
 
 
 def checkIfNecessaryPathsAndFilesExist():
@@ -312,14 +340,15 @@ def checkIfNecessaryPathsAndFilesExist():
 def copytofolder(myimgpath, num, folderpath):
     # num = 1 ===> training path, anything else => testing path
     myimgpath = os.getcwd() + "/" + myimgpath
-    if num == 1:
+    if num == 1: # append file
         # path to folders of image, timestamp added to give image a distinct name
         folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
+        os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
+        os.rename(myimgpath, folderpath)
     else:
-        # for training, use folderpath as image name straight
+        # for training, use folderpath as image name straight, overwrite
         folderpath = os.getcwd() + '/test_images/' + folderpath + ".jpg"
-    os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
-    os.rename(myimgpath, folderpath)
+        shutil.copy(myimgpath, folderpath)
 
 
 def classificationbtn_init_():
@@ -349,35 +378,30 @@ def testbtn_init_():
     global btn1_test, txt1_test, btn1_addgood, btn1_addbad, btn2_test, txt2_test, btn2_addgood, btn2_addbad, btn3_test,\
         txt3_test, btn3_addgood, btn3_addbad, btn4_test, txt4_test, btn4_addgood, btn4_addbad, btn5_test, txt5_test,\
         btn5_addgood, btn5_addbad
-    resultstr1 = ""
-    resultstr2 = ""
-    resultstr3 = ""
-    resultstr4 = ""
-    resultstr5 = ""
 
     # initialize test buttons
-    btn1_test = Button(root, text="TEST", width=30, command="")
-    txt1_test = Label(root, text=resultstr1)
+    btn1_test = Button(root, text="TEST", width=30, command=partial(getresult, "img1.jpg", 0, 1, "testIMG1"))
+    txt1_test = Label(root, text="")
     btn1_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
     btn1_addbad = Button(root, text="ADD TO BAD", width=30, command="")
     # img2
-    btn2_test = Button(root, text="TEST", width=30, command="")
-    txt2_test = Label(root, text=resultstr2)
+    btn2_test = Button(root, text="TEST", width=30, command=partial(getresult, "img2.jpg", 0, 2, "testIMG2"))
+    txt2_test = Label(root, text="")
     btn2_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
     btn2_addbad = Button(root, text="ADD TO BAD", width=30, command="")
     # img3
-    btn3_test = Button(root, text="TEST", width=30, command="")
-    txt3_test = Label(root, text=resultstr3)
+    btn3_test = Button(root, text="TEST", width=30, command=partial(getresult, "img3.jpg", 0, 3, "testIMG3"))
+    txt3_test = Label(root, text="")
     btn3_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
     btn3_addbad = Button(root, text="ADD TO BAD", width=30, command="")
     # img4
-    btn4_test = Button(root, text="TEST", width=30, command="")
-    txt4_test = Label(root, text=resultstr4)
+    btn4_test = Button(root, text="TEST", width=30, command=partial(getresult, "img4.jpg", 0, 4, "testIMG4"))
+    txt4_test = Label(root, text="")
     btn4_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
     btn4_addbad = Button(root, text="ADD TO BAD", width=30, command="")
     # img5
-    btn5_test = Button(root, text="TEST", width=30, command="")
-    txt5_test = Label(root, text=resultstr5)
+    btn5_test = Button(root, text="TEST", width=30, command=partial(getresult, "img5.jpg", 0, 5, "testIMG5"))
+    txt5_test = Label(root, text="")
     btn5_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
     btn5_addbad = Button(root, text="ADD TO BAD", width=30, command="")
 
@@ -429,15 +453,37 @@ def hideclassificationbtns():
 def showtestbtns():
     # get global references
     global btn1_test, btn2_test, btn3_test, btn4_test, btn5_test
-    btn1_test.grid(row=3, column=0, padx="10", pady="10")
-    btn2_test.grid(row=3, column=3, padx="10", pady="10")
-    btn3_test.grid(row=3, column=6, padx="10", pady="10")
-    btn4_test.grid(row=8, column=0, padx="10", pady="10")
-    btn5_test.grid(row=8, column=3, padx="10", pady="10")
+    btn1_test.grid(row=3, column=0, padx="10", pady="10", sticky=W)
+    btn2_test.grid(row=3, column=3, padx="10", pady="10", sticky=W)
+    btn3_test.grid(row=3, column=6, padx="10", pady="10", sticky=W)
+    btn4_test.grid(row=8, column=0, padx="10", pady="10", sticky=W)
+    btn5_test.grid(row=8, column=3, padx="10", pady="10", sticky=W)
+
+
+def showresultfeatures():
+    # get global references
+    global txt1_test, btn1_addgood, btn1_addbad, txt2_test, btn2_addgood, btn2_addbad, txt3_test, btn3_addgood,\
+        btn3_addbad, txt4_test, btn4_addgood, btn4_addbad, txt5_test, btn5_addgood, btn5_addbad
+    # textboxes
+    txt1_test.grid(row=4, column=0, padx="10", pady="10", sticky=W)
+    txt2_test.grid(row=4, column=3, padx="10", pady="10", sticky=W)
+    txt3_test.grid(row=4, column=6, padx="10", pady="10", sticky=W)
+    txt4_test.grid(row=9, column=0, padx="10", pady="10", sticky=W)
+    txt5_test.grid(row=9, column=3, padx="10", pady="10", sticky=W)
+    # buttons
+    btn1_addgood.grid(row=3, column=1, padx="10", pady="10", sticky=W)
+    btn2_addgood.grid(row=3, column=4, padx="10", pady="10", sticky=W)
+    btn3_addgood.grid(row=3, column=7, padx="10", pady="10", sticky=W)
+    btn4_addgood.grid(row=8, column=1, padx="10", pady="10", sticky=W)
+    btn5_addgood.grid(row=8, column=4, padx="10", pady="10", sticky=W)
+    btn1_addbad.grid(row=4, column=1, padx="10", pady="10", sticky=W)
+    btn2_addbad.grid(row=4, column=4, padx="10", pady="10", sticky=W)
+    btn3_addbad.grid(row=4, column=7, padx="10", pady="10", sticky=W)
+    btn4_addbad.grid(row=9, column=1, padx="10", pady="10", sticky=W)
+    btn5_addbad.grid(row=9, column=4, padx="10", pady="10", sticky=W)
 
 
 def hidetestbtns():
-    # get global references
     # get global references
     global btn1_test, txt1_test, btn1_addgood, btn1_addbad, btn2_test, txt2_test, btn2_addgood, btn2_addbad, btn3_test,\
         txt3_test, btn3_addgood, btn3_addbad, btn4_test, txt4_test, btn4_addgood, btn4_addbad, btn5_test, txt5_test, \
@@ -518,7 +564,7 @@ def main():
     # function to show/hide buttons on first try
     show_hide_btns()
     # checkbox to show/hide buttons
-    Checkbutton(root, text=mylbl, variable=testmodeCtrl, command=show_hide_btns).grid(row=9, column=0, sticky=W, padx="10", pady="20")
+    Checkbutton(root, text=mylbl, variable=testmodeCtrl, command=show_hide_btns).grid(row=10, column=0, sticky=W, padx="10", pady="20")
 
     # kick off the GUI
     root.mainloop()
