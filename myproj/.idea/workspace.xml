@@ -12,7 +12,7 @@
     <session id="-1977981369">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.6" value="2" />
           <entry key="project.open.time.7" value="1" />
@@ -126,8 +126,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/openimgfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="487" lean-forward="true" selection-start-line="487" selection-end-line="487" />
+            <state relative-caret-position="480">
+              <caret line="494" column="27" lean-forward="true" selection-start-line="494" selection-start-column="27" selection-end-line="494" selection-end-column="27" />
               <folding>
                 <element signature="e#32#72#0" expanded="true" />
                 <marker date="1539310556179" expanded="true" signature="8292:8297" ph="..." />
@@ -387,14 +387,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1283566" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295583" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16421291" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.16421291" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -506,8 +505,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/openimgfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="487" lean-forward="true" selection-start-line="487" selection-end-line="487" />
+        <state relative-caret-position="480">
+          <caret line="494" column="27" lean-forward="true" selection-start-line="494" selection-start-column="27" selection-end-line="494" selection-end-column="27" />
           <folding>
             <element signature="e#32#72#0" expanded="true" />
             <marker date="1539310556179" expanded="true" signature="8292:8297" ph="..." />
