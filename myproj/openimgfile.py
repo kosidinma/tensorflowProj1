@@ -11,6 +11,7 @@ import time
 from functools import partial
 import tensorflow as tf
 import numpy as np
+from threading import Thread  # we're using threads
 
 # module-level variables ##############################################################################################
 RETRAINED_LABELS_TXT_FILE_LOC = os.getcwd() + "/" + "retrained_labels.txt"
@@ -29,6 +30,7 @@ panelC = None
 panelD = None
 panelE = None
 
+# classification GUI stuff
 btn1_good = None
 btn1_bad = None
 btn2_good = None
@@ -41,6 +43,8 @@ btn5_good = None
 btn5_bad = None
 btn1_test = None
 txt1_test = None
+
+# test GUI stuff
 btn1_addgood = None
 btn1_addbad = None
 btn2_test = None
@@ -60,7 +64,39 @@ txt5_test = None
 btn5_addgood = None
 btn5_addbad = None
 
+# Classification Wrong GUI stuff
+btn1_unclassified = None
+btn1_add_unclassified = None
+btn2_unclassified = None
+btn2_add_unclassified = None
+btn3_unclassified = None
+btn3_add_unclassified = None
+btn4_unclassified = None
+btn4_add_unclassified = None
+btn5_unclassified = None
+btn5_add_unclassified = None
+
 testmodeCtrl = 0
+
+
+# file copy control thread class
+class filecopyCtrl(Thread):
+    def __init__(self, myimgpath, folderpath):  # initialise variables and class input arguments
+        Thread.__init__(self)
+        self.running = True
+        self.imagepath = myimgpath
+        self.folderpath = folderpath
+
+    def run(self):  # try to copy file and if it doesn't exist, keep retrying in thread
+        while True:
+            try:
+                os.rename(self.imagepath, self.folderpath)
+            except(OSError, IOError):
+                print("Target in use")
+                continue
+            print("Target not in use")
+            break
+
 
 # class to run a background thread on a timer event
 class InfiniteTimer:
@@ -131,11 +167,11 @@ class LoopImg:
             elif self.imagenum == 4:
                 panelD = Label(image=self.image)
                 panelD.Image = self.image
-                panelD.grid(row=5, column=0, rowspan=3, columnspan=2, padx=10, pady=10)
+                panelD.grid(row=6, column=0, rowspan=3, columnspan=2, padx=10, pady=10)
             elif self.imagenum == 5:
                 panelE = Label(image=self.image)
                 panelE.Image = self.image
-                panelE.grid(row=5, column=3, rowspan=3, columnspan=2, padx=10, pady=10)
+                panelE.grid(row=6, column=3, rowspan=3, columnspan=2, padx=10, pady=10)
 
         # otherwise, update the image panels
         else:
@@ -192,21 +228,18 @@ class LoopImg:
         # copy file to path
         self.copy_urlimg_to_path()
         self.image = cv2.imread(self.imagedir)  # read file
-        img = self.image
-        self.scaleX, self.scaleY = self.rescaleimg()  # get scaling proportions
-        # OpenCV represents images in BGR order; however PIL represents
-        # images in RGB order, so we need to swap the channels
-        self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-        # convert the images to PIL format...
-        self.image = Image.fromarray(self.image)
-        # resize image
-        self.image = self.image.resize((self.scaleX, self.scaleY), Image.ANTIALIAS)
-        # ...and then convert to ImageTk format
-        self.image = ImageTk.PhotoImage(self.image)
-        self.panelupdate()
-        # rescalewindow(640, 420, img)  # scale the display
-        # cv2.imshow('Image 1', img)
-        # cv2.waitKey(500)  # keep image for 500ms
+        if self.image is not None:  # only update panel if resource exists
+            self.scaleX, self.scaleY = self.rescaleimg()  # get scaling proportions
+            # OpenCV represents images in BGR order; however PIL represents
+            # images in RGB order, so we need to swap the channels
+            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+            # convert the images to PIL format...
+            self.image = Image.fromarray(self.image)
+            # resize image
+            self.image = self.image.resize((self.scaleX, self.scaleY), Image.ANTIALIAS)
+            # ...and then convert to ImageTk format
+            self.image = ImageTk.PhotoImage(self.image)
+            self.panelupdate()
 
     def run(self):
         img_thread = InfiniteTimer(0.5, self.main)
@@ -216,7 +249,7 @@ class LoopImg:
 def getresult(myimgpath, num, textboxnum, testimgname):
     hidetestbtns()  # don't allow any buttons to show while test is running
     copytofolder(myimgpath, num, testimgname)
-    if not checkIfNecessaryPathsAndFilesExist():
+    if not checkIfNecessaryPathsAndFilesExist():  # don't test if files/folders are invalid
         return
     # end if
     # get a list of classifications from the labels file
@@ -272,7 +305,8 @@ def getresult(myimgpath, num, textboxnum, testimgname):
             # for each prediction . . .
             for prediction in sortedPredictions:
                 strClassification = classifications[prediction]
-                # if the classification (obtained from the directory name) ends with the letter "s", remove the "s" to change from plural to singular
+                # if the classification (obtained from the directory name) ends with the letter "s",
+                # remove the "s" to change from plural to singular
                 if strClassification.endswith("s"):
                     strClassification = strClassification[:-1]
                 # end if
@@ -344,7 +378,13 @@ def copytofolder(myimgpath, num, folderpath):
         # path to folders of image, timestamp added to give image a distinct name
         folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
         os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
-        os.rename(myimgpath, folderpath)
+        # try...except to make sure file resource is not being used, if being used, handle using thread
+        try:
+            os.rename(myimgpath, folderpath)
+        except(OSError, IOError):
+            filecopyCtrlInst = filecopyCtrl(myimgpath, folderpath)
+            filecopyCtrlInst.run()
+
     else:
         # for training, use folderpath as image name straight, overwrite
         folderpath = os.getcwd() + '/test_images/' + folderpath + ".jpg"
@@ -354,90 +394,105 @@ def copytofolder(myimgpath, num, folderpath):
 def classificationbtn_init_():
     # get global references
     global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
-        panelA, panelB, panelC, panelD, panelE
+        panelA, panelB, panelC, panelD, panelE, btn1_unclassified, btn2_unclassified, btn3_unclassified, \
+        btn4_unclassified, btn5_unclassified
     # initialize classification buttons
     # WE USE THE "PARTIAL" KEYWORD TO PASS IN ARGS WITH A FUNCTION WHEN ONLY FUNCTION NAME IS EXPECTED
-    btn1_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
-    btn1_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
+    btn1_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
+    btn1_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
+    btn1_unclassified = Button(root, text="USELESS", width=30,
+                               command=partial(copytofolder, "img1.jpg", 1, "random_image"))
     # img2
-    btn2_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
-    btn2_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
+    btn2_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
+    btn2_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
+    btn2_unclassified = Button(root, text="USELESS", width=30,
+                               command=partial(copytofolder, "img2.jpg", 1, "random_image"))
     # img3
-    btn3_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
-    btn3_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
+    btn3_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
+    btn3_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
+    btn3_unclassified = Button(root, text="USELESS", width=30,
+                               command=partial(copytofolder, "img3.jpg", 1, "random_image"))
     # img4
-    btn4_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
-    btn4_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
+    btn4_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
+    btn4_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
+    btn4_unclassified = Button(root, text="USELESS", width=30,
+                               command=partial(copytofolder, "img4.jpg", 1, "random_image"))
     # img5
-    btn5_good = Button(root, text="GOOD", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
-    btn5_bad = Button(root, text="BAD", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
+    btn5_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
+    btn5_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
+    btn5_unclassified = Button(root, text="USELESS", width=30,
+                               command=partial(copytofolder, "img5.jpg", 1, "random_image"))
 
 
 def testbtn_init_():
     # get global references
     global btn1_test, txt1_test, btn1_addgood, btn1_addbad, btn2_test, txt2_test, btn2_addgood, btn2_addbad, btn3_test,\
         txt3_test, btn3_addgood, btn3_addbad, btn4_test, txt4_test, btn4_addgood, btn4_addbad, btn5_test, txt5_test,\
-        btn5_addgood, btn5_addbad
+        btn5_addgood, btn5_addbad, btn1_add_unclassified, btn2_add_unclassified, btn3_add_unclassified, \
+        btn4_add_unclassified, btn5_add_unclassified
 
     # initialize test buttons
     btn1_test = Button(root, text="TEST", width=30, command=partial(getresult, "img1.jpg", 0, 1, "testIMG1"))
     txt1_test = Label(root, text="")
-    btn1_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
-    btn1_addbad = Button(root, text="ADD TO BAD", width=30, command="")
+    btn1_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
+    btn1_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
+    btn1_add_unclassified = Button(root, text="USELESS", width=30, command="")
     # img2
     btn2_test = Button(root, text="TEST", width=30, command=partial(getresult, "img2.jpg", 0, 2, "testIMG2"))
     txt2_test = Label(root, text="")
-    btn2_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
-    btn2_addbad = Button(root, text="ADD TO BAD", width=30, command="")
+    btn2_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
+    btn2_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
+    btn2_add_unclassified = Button(root, text="USELESS", width=30, command="")
     # img3
     btn3_test = Button(root, text="TEST", width=30, command=partial(getresult, "img3.jpg", 0, 3, "testIMG3"))
     txt3_test = Label(root, text="")
-    btn3_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
-    btn3_addbad = Button(root, text="ADD TO BAD", width=30, command="")
+    btn3_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
+    btn3_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
+    btn3_add_unclassified = Button(root, text="USELESS", width=30, command="")
     # img4
     btn4_test = Button(root, text="TEST", width=30, command=partial(getresult, "img4.jpg", 0, 4, "testIMG4"))
     txt4_test = Label(root, text="")
-    btn4_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
-    btn4_addbad = Button(root, text="ADD TO BAD", width=30, command="")
+    btn4_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
+    btn4_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
+    btn4_add_unclassified = Button(root, text="USELESS", width=30, command="")
     # img5
     btn5_test = Button(root, text="TEST", width=30, command=partial(getresult, "img5.jpg", 0, 5, "testIMG5"))
     txt5_test = Label(root, text="")
-    btn5_addgood = Button(root, text="ADD TO GOOD", width=30, command="")
-    btn5_addbad = Button(root, text="ADD TO BAD", width=30, command="")
+    btn5_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
+    btn5_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
+    btn5_add_unclassified = Button(root, text="USELESS", width=30, command="")
 
 
 def showclassificationbtns():
     # get global references
-    global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good
-    # btn1_good = Button(root, text="GOOD", width=30, command="")
+    global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
+        btn1_unclassified, btn2_unclassified, btn3_unclassified, btn4_unclassified, btn5_unclassified
+    # imag1
+    btn1_unclassified.grid(row=4, column=1, padx="10", pady="10")
     btn1_good.grid(row=3, column=0, padx="10", pady="10")
-    # btn1_bad = Button(root, text="BAD", width=30, command="")
     btn1_bad.grid(row=3, column=1, padx="10", pady="10")
     # img2
-    # btn2_good = Button(root, text="GOOD", width=30, command="")
+    btn2_unclassified.grid(row=4, column=4, padx="10", pady="10")
     btn2_good.grid(row=3, column=3, padx="10", pady="10")
-    # btn2_bad = Button(root, text="BAD", width=30, command="")
     btn2_bad.grid(row=3, column=4, padx="10", pady="10")
     # img3
-    # btn3_good = Button(root, text="GOOD", width=30, command="")
+    btn3_unclassified.grid(row=4, column=7, padx="10", pady="10")
     btn3_good.grid(row=3, column=6, padx="10", pady="10")
-    # btn3_bad = Button(root, text="BAD", width=30, command="")
     btn3_bad.grid(row=3, column=7, padx="10", pady="10")
     # img4
-    # btn4_good = Button(root, text="GOOD", width=30, command="")
-    btn4_good.grid(row=8, column=0, padx="10", pady="10")
-    # btn4_bad = Button(root, text="BAD", width=30, command="")
-    btn4_bad.grid(row=8, column=1, padx="10", pady="10")
+    btn4_unclassified.grid(row=10, column=1, padx="10", pady="10")
+    btn4_good.grid(row=9, column=0, padx="10", pady="10")
+    btn4_bad.grid(row=9, column=1, padx="10", pady="10")
     # img5
-    # btn5_good = Button(root, text="GOOD", width=30, command="")
-    btn5_good.grid(row=8, column=3, padx="10", pady="10")
-    # btn5_bad = Button(root, text="BAD", width=30, command="")
-    btn5_bad.grid(row=8, column=4, padx="10", pady="10")
+    btn5_unclassified.grid(row=10, column=4, padx="10", pady="10")
+    btn5_good.grid(row=9, column=3, padx="10", pady="10")
+    btn5_bad.grid(row=9, column=4, padx="10", pady="10")
 
 
 def hideclassificationbtns():
     # get global references
-    global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good
+    global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
+        btn1_unclassified, btn2_unclassified, btn3_unclassified, btn4_unclassified, btn5_unclassified
     btn1_good.grid_forget()
     btn1_bad.grid_forget()
     btn2_good.grid_forget()
@@ -448,6 +503,13 @@ def hideclassificationbtns():
     btn4_bad.grid_forget()
     btn5_good.grid_forget()
     btn5_bad.grid_forget()
+    btn1_unclassified.grid_forget()
+    btn2_unclassified.grid_forget()
+    btn3_unclassified.grid_forget()
+    btn4_unclassified.grid_forget()
+    btn5_unclassified.grid_forget()
+
+
 
 
 def showtestbtns():
@@ -456,41 +518,48 @@ def showtestbtns():
     btn1_test.grid(row=3, column=0, padx="10", pady="10", sticky=W)
     btn2_test.grid(row=3, column=3, padx="10", pady="10", sticky=W)
     btn3_test.grid(row=3, column=6, padx="10", pady="10", sticky=W)
-    btn4_test.grid(row=8, column=0, padx="10", pady="10", sticky=W)
-    btn5_test.grid(row=8, column=3, padx="10", pady="10", sticky=W)
+    btn4_test.grid(row=9, column=0, padx="10", pady="10", sticky=W)
+    btn5_test.grid(row=9, column=3, padx="10", pady="10", sticky=W)
 
 
 def showresultfeatures(textboxnum):
     # get global references
     global txt1_test, btn1_addgood, btn1_addbad, txt2_test, btn2_addgood, btn2_addbad, txt3_test, btn3_addgood,\
-        btn3_addbad, txt4_test, btn4_addgood, btn4_addbad, txt5_test, btn5_addgood, btn5_addbad
+        btn3_addbad, txt4_test, btn4_addgood, btn4_addbad, txt5_test, btn5_addgood, btn5_addbad, btn1_add_unclassified,\
+        btn2_add_unclassified, btn3_add_unclassified, btn4_add_unclassified, btn5_add_unclassified
     if textboxnum == 1:
         txt1_test.grid(row=4, column=0, padx="10", pady="10", sticky=W + E + N + S)
         btn1_addgood.grid(row=3, column=1, padx="10", pady="10", sticky=W)
         btn1_addbad.grid(row=4, column=1, padx="10", pady="10", sticky=W)
+        btn1_add_unclassified.grid(row=5, column=1, padx="10", pady="10", sticky=W)
     elif textboxnum == 2:
         txt2_test.grid(row=4, column=3, padx="10", pady="10", sticky=W + E + N + S)
         btn2_addgood.grid(row=3, column=4, padx="10", pady="10", sticky=W)
         btn2_addbad.grid(row=4, column=4, padx="10", pady="10", sticky=W)
+        btn2_add_unclassified.grid(row=5, column=4, padx="10", pady="10", sticky=W)
     elif textboxnum == 3:
         txt3_test.grid(row=4, column=6, padx="10", pady="10", sticky=W + E + N + S)
         btn3_addgood.grid(row=3, column=7, padx="10", pady="10", sticky=W)
         btn3_addbad.grid(row=4, column=7, padx="10", pady="10", sticky=W)
+        btn3_add_unclassified.grid(row=5, column=7, padx="10", pady="10", sticky=W)
     elif textboxnum == 4:
-        txt4_test.grid(row=9, column=0, padx="10", pady="10", sticky=W + E + N + S)
-        btn4_addgood.grid(row=8, column=1, padx="10", pady="10", sticky=W)
-        btn4_addbad.grid(row=9, column=1, padx="10", pady="10", sticky=W)
+        txt4_test.grid(row=10, column=0, padx="10", pady="10", sticky=W + E + N + S)
+        btn4_addgood.grid(row=9, column=1, padx="10", pady="10", sticky=W)
+        btn4_addbad.grid(row=10, column=1, padx="10", pady="10", sticky=W)
+        btn4_add_unclassified.grid(row=11, column=1, padx="10", pady="10", sticky=W)
     elif textboxnum == 5:
-        txt5_test.grid(row=9, column=3, padx="10", pady="10", sticky=W + E + N + S)
-        btn5_addgood.grid(row=8, column=4, padx="10", pady="10", sticky=W)
-        btn5_addbad.grid(row=9, column=4, padx="10", pady="10", sticky=W)
+        txt5_test.grid(row=10, column=3, padx="10", pady="10", sticky=W + E + N + S)
+        btn5_addgood.grid(row=9, column=4, padx="10", pady="10", sticky=W)
+        btn5_addbad.grid(row=10, column=4, padx="10", pady="10", sticky=W)
+        btn1_add_unclassified.grid(row=11, column=4, padx="10", pady="10", sticky=W)
 
 
 def hidetestbtns():
     # get global references
     global btn1_test, txt1_test, btn1_addgood, btn1_addbad, btn2_test, txt2_test, btn2_addgood, btn2_addbad, btn3_test,\
         txt3_test, btn3_addgood, btn3_addbad, btn4_test, txt4_test, btn4_addgood, btn4_addbad, btn5_test, txt5_test, \
-        btn5_addgood, btn5_addbad
+        btn5_addgood, btn5_addbad, btn1_add_unclassified, btn2_add_unclassified, btn3_add_unclassified, \
+        btn4_add_unclassified, btn5_add_unclassified
     btn1_test.grid_forget()
     txt1_test.grid_forget()
     btn1_addgood.grid_forget()
@@ -511,13 +580,17 @@ def hidetestbtns():
     txt5_test.grid_forget()
     btn5_addgood.grid_forget()
     btn5_addbad.grid_forget()
+    btn1_add_unclassified.grid_forget()
+    btn2_add_unclassified.grid_forget()
+    btn3_add_unclassified.grid_forget()
+    btn4_add_unclassified.grid_forget()
+    btn5_add_unclassified.grid_forget()
 
 
 
 def show_hide_btns():
     # get global references
-    global testmodeCtrl, btn1_test, txt1_test, lbl1_test, btn2_test, txt2_test, lbl2_test, btn3_test, txt3_test, \
-        lbl3_test, btn4_test, txt4_test, lbl4_test, btn5_test, txt5_test, lbl5_test
+    global testmodeCtrl
     # add buttons
     # width is in %
     # img1
@@ -567,7 +640,7 @@ def main():
     # function to show/hide buttons on first try
     show_hide_btns()
     # checkbox to show/hide buttons
-    Checkbutton(root, text=mylbl, variable=testmodeCtrl, command=show_hide_btns).grid(row=10, column=0, sticky=W, padx="10", pady="20")
+    Checkbutton(root, text=mylbl, variable=testmodeCtrl, command=show_hide_btns).grid(row=11, column=0, sticky=W, padx="10", pady="20")
 
     # kick off the GUI
     root.mainloop()
