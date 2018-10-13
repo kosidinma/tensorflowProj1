@@ -105,6 +105,9 @@ class filecopyCtrl(Thread):
         self.imagepath = myimgpath
         self.folderpath = folderpath
         self.btnindex = btnindex
+        # A daemon thread will not prevent the application from exiting.
+        # The program ends when all non-daemon threads (main thread included) are complete.
+        self.setDaemon(True)
 
     def run(self):  # try to copy file and if it doesn't exist, keep retrying in thread
         while True:
