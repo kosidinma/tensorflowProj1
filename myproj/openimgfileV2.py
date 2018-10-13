@@ -733,8 +733,8 @@ def showresultfeatures(textboxnum):
     elif textboxnum == 5:
         txt5_test.grid(row=4, column=0, padx="10", pady="10", sticky=W + E + N + S)
         btn5_addgood.grid(row=3, column=1, padx="10", pady="10", sticky=W)
-        btn5_addbad.grid(row=3, column=1, padx="10", pady="10", sticky=W)
-        btn1_add_unclassified.grid(row=5, column=1, padx="10", pady="10", sticky=W)
+        btn5_addbad.grid(row=4, column=1, padx="10", pady="10", sticky=W)
+        btn5_add_unclassified.grid(row=5, column=1, padx="10", pady="10", sticky=W)
 
 
 def hidetestbtns():
@@ -800,6 +800,18 @@ def rescaleimg(width, height, image):
     return newwidth, newheight
 
 
+def centerWindow(win):  # function to center tkinter window
+    # Gets the requested values of the height and width.
+    windowWidth = win.winfo_reqwidth()
+    windowHeight = win.winfo_reqheight()
+
+    # Gets both half the screen width/height and window width/height
+    positionRight = int(win.winfo_screenwidth() / 2.6 - windowWidth / 2)
+    positionDown = int(win.winfo_screenheight() / 3.5 - windowHeight / 2)
+
+    # Positions the window in the center of the page.
+    win.geometry("+{}+{}".format(positionRight, positionDown))
+
 def pop_up_init_(win):
     # button index map:
     # btn1_good or add_good = 1
@@ -851,7 +863,7 @@ def pop_up_init_(win):
 
 def popup_test(textboxnum, textstr):
     win = Toplevel()
-    win.wm_title("Window")
+    win.wm_title("Results For Camera: " + str(textboxnum))
     testimage = cv2.imread(os.getcwd() + '/test_images/testIMG' + str(textboxnum) + ".jpg")  # read file
     scaleX, scaleY = rescaleimg(610, 400, testimage)  # get scaling proportions
     # OpenCV represents images in BGR order; however PIL represents
@@ -871,6 +883,7 @@ def popup_test(textboxnum, textstr):
     showresultfeatures(textboxnum)
     b = Button(win, text="EXIT", command=win.destroy)
     b.grid(row=6, columnspan=2, column=0, padx=10, pady=10, sticky=W + E + N + S)
+    centerWindow(win)
 
 
 def main():
