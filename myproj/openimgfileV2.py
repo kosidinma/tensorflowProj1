@@ -698,11 +698,11 @@ def hideclassificationbtns():
 def showtestbtns():
     # get global references
     global btn1_test, btn2_test, btn3_test, btn4_test, btn5_test
-    btn1_test.grid(row=3, column=0, columnspan=2, padx="10", pady="10", sticky=W + E + N + S)
-    btn2_test.grid(row=3, column=3, columnspan=2, padx="10", pady="10", sticky=W + E + N + S)
-    btn3_test.grid(row=3, column=6, columnspan=2, padx="10", pady="10", sticky=W + E + N + S)
-    btn4_test.grid(row=9, column=0, columnspan=2, padx="10", pady="10", sticky=W + E + N + S)
-    btn5_test.grid(row=9, column=3, columnspan=2, padx="10", pady="10", sticky=W + E + N + S)
+    btn1_test.grid(row=3, column=0, columnspan=2, padx="10", pady="10")
+    btn2_test.grid(row=3, column=3, columnspan=2, padx="10", pady="10")
+    btn3_test.grid(row=3, column=6, columnspan=2, padx="10", pady="10")
+    btn4_test.grid(row=9, column=0, columnspan=2, padx="10", pady="10")
+    btn5_test.grid(row=9, column=3, columnspan=2, padx="10", pady="10")
 
 
 def showresultfeatures(textboxnum):
@@ -870,7 +870,7 @@ def popup_test(textboxnum, textstr):
     updateResults(textboxnum, textstr)
     showresultfeatures(textboxnum)
     b = Button(win, text="EXIT", command=win.destroy)
-    b.grid(row=5, columnspan=2, column=0)
+    b.grid(row=6, columnspan=2, column=0, padx=10, pady=10, sticky=W + E + N + S)
 
 
 def main():
