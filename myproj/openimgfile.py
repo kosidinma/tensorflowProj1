@@ -379,6 +379,8 @@ def setButtonBusy(state, btnIndx):
             btn2_addbad.config(state="normal")
         elif btnIndx == 6:
             btn2_unclassified_busy = False
+            btn2_unclassified.config(state="normal")
+            btn2_add_unclassified.config(state="normal")
         elif btnIndx == 7:
             btn3_good_busy = False
             btn3_good.config(state="normal")
@@ -389,6 +391,8 @@ def setButtonBusy(state, btnIndx):
             btn3_addbad.config(state="normal")
         elif btnIndx == 9:
             btn3_unclassified_busy = False
+            btn3_unclassified.config(state="normal")
+            btn3_add_unclassified.config(state="normal")
         elif btnIndx == 10:
             btn4_good_busy = False
             btn4_good.config(state="normal")
@@ -399,6 +403,8 @@ def setButtonBusy(state, btnIndx):
             btn4_addbad.config(state="normal")
         elif btnIndx == 12:
             btn4_unclassified_busy = False
+            btn4_unclassified.config(state="normal")
+            btn4_add_unclassified.config(state="normal")
         elif btnIndx == 13:
             btn5_good_busy = False
             btn5_good.config(state="normal")
@@ -409,37 +415,69 @@ def setButtonBusy(state, btnIndx):
             btn5_addbad.config(state="normal")
         elif btnIndx == 15:
             btn5_unclassified_busy = False
+            btn5_unclassified.config(state="normal")
+            btn5_add_unclassified.config(state="normal")
     else:
         if btnIndx == 1:
             btn1_good_busy = True
+            btn1_good.config(state=DISABLED)
+            btn1_addgood.config(state=DISABLED)
         elif btnIndx == 2:
             btn1_bad_busy = True
+            btn1_bad.config(state=DISABLED)
+            btn1_addbad.config(state=DISABLED)
         elif btnIndx == 3:
             btn1_unclassified_busy = True
+            btn1_unclassified.config(state=DISABLED)
+            btn1_add_unclassified.config(state=DISABLED)
         elif btnIndx == 4:
             btn2_good_busy = True
+            btn2_good.config(state=DISABLED)
+            btn2_addgood.config(state=DISABLED)
         elif btnIndx == 5:
             btn2_bad_busy = True
+            btn2_bad.config(state=DISABLED)
+            btn2_addbad.config(state=DISABLED)
         elif btnIndx == 6:
             btn2_unclassified_busy = True
+            btn2_unclassified.config(state=DISABLED)
+            btn2_add_unclassified.config(state=DISABLED)
         elif btnIndx == 7:
             btn3_good_busy = True
+            btn3_good.config(state=DISABLED)
+            btn3_addgood.config(state=DISABLED)
         elif btnIndx == 8:
             btn3_bad_busy = True
+            btn3_bad.config(state=DISABLED)
+            btn3_addbad.config(state=DISABLED)
         elif btnIndx == 9:
             btn3_unclassified_busy = True
+            btn3_unclassified.config(state=DISABLED)
+            btn3_add_unclassified.config(state=DISABLED)
         elif btnIndx == 10:
             btn4_good_busy = True
+            btn4_good.config(state=DISABLED)
+            btn4_addgood.config(state=DISABLED)
         elif btnIndx == 11:
             btn4_bad_busy = True
+            btn4_bad.config(state=DISABLED)
+            btn4_addbad.config(state=DISABLED)
         elif btnIndx == 12:
             btn4_unclassified_busy = True
+            btn4_unclassified.config(state=DISABLED)
+            btn4_add_unclassified.config(state=DISABLED)
         elif btnIndx == 13:
             btn5_good_busy = True
+            btn5_good.config(state=DISABLED)
+            btn5_addgood.config(state=DISABLED)
         elif btnIndx == 14:
             btn5_bad_busy = True
+            btn5_bad.config(state=DISABLED)
+            btn5_addbad.config(state=DISABLED)
         elif btnIndx == 15:
             btn5_unclassified_busy = True
+            btn5_unclassified.config(state=DISABLED)
+            btn5_add_unclassified.config(state=DISABLED)
 
 
 # check button to busy or not busy
