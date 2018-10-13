@@ -3,6 +3,7 @@ import shutil  # python's filestream lib
 import requests  # a HTTP handler
 import cv2  # openCV
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
 from threading import Timer  # we use threads
 import os
@@ -135,6 +136,9 @@ class InfiniteTimer:
     def _start_timer(self):
         if self._should_continue:  # Code could have been running when cancel was called.
             self.thread = Timer(self.seconds, self._handle_target)
+            # A daemon thread will not prevent the application from exiting.
+            # The program ends when all non-daemon threads (main thread included) are complete.
+            self.thread.setDaemon(True)
             self.thread.start()
 
     def start(self):
@@ -831,6 +835,11 @@ def show_hide_btns():
         showtestbtns()
 
 
+#function to handle close button press
+def on_close():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        root.destroy()
+
 def main():
     # get global references
     global testmodeCtrl
@@ -871,6 +880,8 @@ def main():
     # checkbox to show/hide buttons
     Checkbutton(root, text=mylbl, variable=testmodeCtrl, command=show_hide_btns).grid(row=11, column=0, sticky=W, padx="10", pady="20")
 
+    # close window event handler
+    root.protocol("WM_DELETE_WINDOW", on_close)
     # kick off the GUI
     root.mainloop()
 
