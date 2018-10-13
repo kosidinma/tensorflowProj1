@@ -337,9 +337,9 @@ def getresult(myimgpath, num, textboxnum, testimgname):
         # end for
     # end with
     # write the graph to file so we can view with TensorBoard
-    tfFileWriter = tf.summary.FileWriter(os.getcwd())
-    tfFileWriter.add_graph(sess.graph)
-    tfFileWriter.close()
+    # tfFileWriter = tf.summary.FileWriter(os.getcwd())
+    # tfFileWriter.add_graph(sess.graph)
+    # tfFileWriter.close()
     showresultfeatures(textboxnum)  # show result variables
     showtestbtns()  # show the buttons again
     updateResults(textboxnum, textstr)

@@ -1,7 +1,7 @@
-dandelion
 daisy
-tulips
-random image
-sunflowers
 roses
+random image
 not a flower
+sunflowers
+dandelion
+tulips
