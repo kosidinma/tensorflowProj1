@@ -41,10 +41,10 @@ btn4_good = None
 btn4_bad = None
 btn5_good = None
 btn5_bad = None
-btn1_test = None
-txt1_test = None
 
 # test GUI stuff
+btn1_test = None
+txt1_test = None
 btn1_addgood = None
 btn1_addbad = None
 btn2_test = None
@@ -76,25 +76,43 @@ btn4_add_unclassified = None
 btn5_unclassified = None
 btn5_add_unclassified = None
 
+# initialize check for button busy
+btn1_good_busy = False
+btn1_bad_busy = False
+btn1_unclassified_busy = False
+btn2_good_busy = False
+btn2_bad_busy = False
+btn2_unclassified_busy = False
+btn3_good_busy = False
+btn3_bad_busy = False
+btn3_unclassified_busy = False
+btn4_good_busy = False
+btn4_bad_busy = False
+btn4_unclassified_busy = False
+btn5_good_busy = False
+btn5_bad_busy = False
+btn5_unclassified_busy = False
+
 testmodeCtrl = 0
 
 
 # file copy control thread class
 class filecopyCtrl(Thread):
-    def __init__(self, myimgpath, folderpath):  # initialise variables and class input arguments
+    def __init__(self, myimgpath, folderpath, btnindex):  # initialise variables and class input arguments
         Thread.__init__(self)
         self.running = True
         self.imagepath = myimgpath
         self.folderpath = folderpath
+        self.btnindex = btnindex
 
     def run(self):  # try to copy file and if it doesn't exist, keep retrying in thread
         while True:
             try:
                 os.rename(self.imagepath, self.folderpath)
             except(OSError, IOError):
-                print("Target in use")
                 continue
             print("Target not in use")
+            setButtonBusy(False, self.btnindex)
             break
 
 
@@ -248,7 +266,7 @@ class LoopImg:
 
 def getresult(myimgpath, num, textboxnum, testimgname):
     hidetestbtns()  # don't allow any buttons to show while test is running
-    copytofolder(myimgpath, num, testimgname)
+    copytofolder(myimgpath, num, testimgname, None)  # button index not needed for test
     if not checkIfNecessaryPathsAndFilesExist():  # don't test if files/folders are invalid
         return
     # end if
@@ -328,6 +346,142 @@ def getresult(myimgpath, num, textboxnum, testimgname):
 # end main
 
 
+# sets button to busy or not busy and handles multiple clicking during processes
+def setButtonBusy(state, btnIndx):
+    global btn1_good_busy, btn1_bad_busy, btn1_unclassified_busy, btn2_good_busy, btn2_bad_busy, \
+        btn2_unclassified_busy, btn3_good_busy, btn3_bad_busy, btn3_unclassified_busy, btn4_good_busy, \
+        btn4_bad_busy, btn4_unclassified_busy, btn5_good_busy, btn5_bad_busy, btn5_unclassified_busy, btn1_bad, \
+        btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
+        btn1_unclassified, btn2_unclassified, btn3_unclassified, btn4_unclassified, btn5_unclassified, \
+        btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
+        btn1_unclassified, btn2_unclassified, btn3_unclassified, btn4_unclassified, btn5_unclassified
+
+    if not state:  # set as not busy and enable button
+        if btnIndx == 1:
+            btn1_good_busy = False
+            btn1_good.config(state="normal")
+            btn1_addgood.config(state="normal")
+        elif btnIndx == 2:
+            btn1_bad_busy = False
+            btn1_bad.config(state="normal")
+            btn1_addbad.config(state="normal")
+        elif btnIndx == 3:
+            btn1_unclassified_busy = False
+            btn1_unclassified.config(state="normal")
+            btn1_add_unclassified.config(state="normal")
+        elif btnIndx == 4:
+            btn2_good_busy = False
+            btn2_good.config(state="normal")
+            btn2_addgood.config(state="normal")
+        elif btnIndx == 5:
+            btn2_bad_busy = False
+            btn2_bad.config(state="normal")
+            btn2_addbad.config(state="normal")
+        elif btnIndx == 6:
+            btn2_unclassified_busy = False
+        elif btnIndx == 7:
+            btn3_good_busy = False
+            btn3_good.config(state="normal")
+            btn3_addgood.config(state="normal")
+        elif btnIndx == 8:
+            btn3_bad_busy = False
+            btn3_bad.config(state="normal")
+            btn3_addbad.config(state="normal")
+        elif btnIndx == 9:
+            btn3_unclassified_busy = False
+        elif btnIndx == 10:
+            btn4_good_busy = False
+            btn4_good.config(state="normal")
+            btn4_addgood.config(state="normal")
+        elif btnIndx == 11:
+            btn4_bad_busy = False
+            btn4_bad.config(state="normal")
+            btn4_addbad.config(state="normal")
+        elif btnIndx == 12:
+            btn4_unclassified_busy = False
+        elif btnIndx == 13:
+            btn5_good_busy = False
+            btn5_good.config(state="normal")
+            btn5_addgood.config(state="normal")
+        elif btnIndx == 14:
+            btn5_bad_busy = False
+            btn5_bad.config(state="normal")
+            btn5_addbad.config(state="normal")
+        elif btnIndx == 15:
+            btn5_unclassified_busy = False
+    else:
+        if btnIndx == 1:
+            btn1_good_busy = True
+        elif btnIndx == 2:
+            btn1_bad_busy = True
+        elif btnIndx == 3:
+            btn1_unclassified_busy = True
+        elif btnIndx == 4:
+            btn2_good_busy = True
+        elif btnIndx == 5:
+            btn2_bad_busy = True
+        elif btnIndx == 6:
+            btn2_unclassified_busy = True
+        elif btnIndx == 7:
+            btn3_good_busy = True
+        elif btnIndx == 8:
+            btn3_bad_busy = True
+        elif btnIndx == 9:
+            btn3_unclassified_busy = True
+        elif btnIndx == 10:
+            btn4_good_busy = True
+        elif btnIndx == 11:
+            btn4_bad_busy = True
+        elif btnIndx == 12:
+            btn4_unclassified_busy = True
+        elif btnIndx == 13:
+            btn5_good_busy = True
+        elif btnIndx == 14:
+            btn5_bad_busy = True
+        elif btnIndx == 15:
+            btn5_unclassified_busy = True
+
+
+# check button to busy or not busy
+def buttonIsBusy(btnIndx):
+    global btn1_good_busy, btn1_bad_busy, btn1_unclassified_busy, btn2_good_busy, btn2_bad_busy, \
+        btn2_unclassified_busy, btn3_good_busy, btn3_bad_busy, btn3_unclassified_busy, btn4_good_busy, \
+        btn4_bad_busy, btn4_unclassified_busy, btn5_good_busy, btn5_bad_busy, btn5_unclassified_busy
+
+    if btnIndx == 1 and btn1_good_busy:
+        return True
+    elif btnIndx == 2 and btn1_bad_busy:
+        return True
+    elif btnIndx == 3 and btn1_unclassified_busy:
+        return True
+    elif btnIndx == 4 and btn2_good_busy:
+        return True
+    elif btnIndx == 5 and btn2_bad_busy:
+        return True
+    elif btnIndx == 6 and btn2_unclassified_busy:
+        return True
+    elif btnIndx == 7 and btn3_good_busy:
+        return True
+    elif btnIndx == 8 and btn3_bad_busy:
+        return True
+    elif btnIndx == 9 and btn3_unclassified_busy:
+        return True
+    elif btnIndx == 10 and btn4_good_busy:
+        return True
+    elif btnIndx == 11 and btn4_bad_busy:
+        return True
+    elif btnIndx == 12 and btn4_unclassified_busy:
+        return True
+    elif btnIndx == 13 and btn5_good_busy:
+        return True
+    elif btnIndx == 14 and btn5_bad_busy:
+        return True
+    elif btnIndx == 15 and btn5_unclassified_busy:
+        return True
+    else:
+        return False
+
+
 def updateResults(textboxnum, textstr):
     # get global references
     global btn1_test, btn2_test, btn3_test, btn4_test, btn5_test
@@ -371,60 +525,99 @@ def checkIfNecessaryPathsAndFilesExist():
     return True
 
 
-def copytofolder(myimgpath, num, folderpath):
+def copytofolder(myimgpath, num, folderpath, btnindex):
     # num = 1 ===> training path, anything else => testing path
     myimgpath = os.getcwd() + "/" + myimgpath
     if num == 1:  # append file
-        # path to folders of image, timestamp added to give image a distinct name
-        folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
-        os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
-        # try...except to make sure file resource is not being used, if being used, handle using thread
-        try:
-            os.rename(myimgpath, folderpath)
-        except(OSError, IOError):
-            filecopyCtrlInst = filecopyCtrl(myimgpath, folderpath)
-            filecopyCtrlInst.run()
-
+        if not buttonIsBusy(btnindex):  # if button already started a thread, do nothing
+            setButtonBusy(True, btnindex)
+            # path to folders of image, timestamp added to give image a distinct name
+            folderpath = os.getcwd() + '/training_images/' + folderpath + '/image' + str(time.time()) + ".jpg"
+            os.makedirs(os.path.dirname(folderpath), exist_ok=True)  # create directory if it doesn't exist
+            # try...except to make sure file resource is not being used, if being used, handle using thread
+            try:
+                os.rename(myimgpath, folderpath)
+            except(OSError, IOError):
+                filecopyCtrlInst = filecopyCtrl(myimgpath, folderpath, btnindex)
+                filecopyCtrlInst.run()
+            else:
+                setButtonBusy(False, btnindex)
+        else:
+            print("button" + str(btnindex) + " is busy")
     else:
-        # for training, use folderpath as image name straight, overwrite
+        # for testing, use folderpath as image name straight, overwrite..no thread handling as it
         folderpath = os.getcwd() + '/test_images/' + folderpath + ".jpg"
         shutil.copy(myimgpath, folderpath)
 
 
 def classificationbtn_init_():
-    # get global references
+
+    # button index map:
+    # btn1_good or add_good = 1
+    # btn1_bad or add_bad = 2
+    # btn1_unclassified or add_unclassified = 3
+    # btn2_good or add_good = 4
+    # btn2_bad or add_bad = 5
+    # btn2_unclassified or add_unclassified = 6
+    # btn3_good or add_good = 7
+    # btn3_bad or add_bad = 8
+    # btn3_unclassified or add_unclassified = 9
+    # btn4_good or add_good = 10
+    # btn4_bad or add_bad = 11
+    # btn4_unclassified or add_unclassified = 12
+    # btn5_good or add_good = 13
+    # btn5_bad or add_bad = 14
+    # btn5_unclassified or add_unclassified = 15
+
+    # get global references...only required when writing
     global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
         panelA, panelB, panelC, panelD, panelE, btn1_unclassified, btn2_unclassified, btn3_unclassified, \
         btn4_unclassified, btn5_unclassified
     # initialize classification buttons
     # WE USE THE "PARTIAL" KEYWORD TO PASS IN ARGS WITH A FUNCTION WHEN ONLY FUNCTION NAME IS EXPECTED
-    btn1_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
-    btn1_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
+    btn1_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1", 1))
+    btn1_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1", 2))
     btn1_unclassified = Button(root, text="USELESS", width=30,
-                               command=partial(copytofolder, "img1.jpg", 1, "random_image"))
+                               command=partial(copytofolder, "img1.jpg", 1, "random_image", 3))
     # img2
-    btn2_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
-    btn2_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
+    btn2_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2", 4))
+    btn2_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2", 5))
     btn2_unclassified = Button(root, text="USELESS", width=30,
-                               command=partial(copytofolder, "img2.jpg", 1, "random_image"))
+                               command=partial(copytofolder, "img2.jpg", 1, "random_image", 6))
     # img3
-    btn3_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
-    btn3_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
+    btn3_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3", 7))
+    btn3_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3", 8))
     btn3_unclassified = Button(root, text="USELESS", width=30,
-                               command=partial(copytofolder, "img3.jpg", 1, "random_image"))
+                               command=partial(copytofolder, "img3.jpg", 1, "random_image", 9))
     # img4
-    btn4_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
-    btn4_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
+    btn4_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4", 10))
+    btn4_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4", 11))
     btn4_unclassified = Button(root, text="USELESS", width=30,
-                               command=partial(copytofolder, "img4.jpg", 1, "random_image"))
+                               command=partial(copytofolder, "img4.jpg", 1, "random_image", 12))
     # img5
-    btn5_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
-    btn5_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
+    btn5_good = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5", 13))
+    btn5_bad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5", 14))
     btn5_unclassified = Button(root, text="USELESS", width=30,
-                               command=partial(copytofolder, "img5.jpg", 1, "random_image"))
+                               command=partial(copytofolder, "img5.jpg", 1, "random_image", 15))
 
 
 def testbtn_init_():
+    # button index map:
+    # btn1_good or add_good = 1
+    # btn1_bad or add_bad = 2
+    # btn1_unclassified or add_unclassified = 3
+    # btn2_good or add_good = 4
+    # btn2_bad or add_bad = 5
+    # btn2_unclassified or add_unclassified = 6
+    # btn3_good or add_good = 7
+    # btn3_bad or add_bad = 8
+    # btn3_unclassified or add_unclassified = 9
+    # btn4_good or add_good = 10
+    # btn4_bad or add_bad = 11
+    # btn4_unclassified or add_unclassified = 12
+    # btn5_good or add_good = 13
+    # btn5_bad or add_bad = 14
+    # btn5_unclassified or add_unclassified = 15
     # get global references
     global btn1_test, txt1_test, btn1_addgood, btn1_addbad, btn2_test, txt2_test, btn2_addgood, btn2_addbad, btn3_test,\
         txt3_test, btn3_addgood, btn3_addbad, btn4_test, txt4_test, btn4_addgood, btn4_addbad, btn5_test, txt5_test,\
@@ -434,33 +627,33 @@ def testbtn_init_():
     # initialize test buttons
     btn1_test = Button(root, text="TEST", width=30, command=partial(getresult, "img1.jpg", 0, 1, "testIMG1"))
     txt1_test = Label(root, text="")
-    btn1_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1"))
-    btn1_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1"))
-    btn1_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img1.jpg", 1, "random_image"))
+    btn1_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "goodFolder1", 1))
+    btn1_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img1.jpg", 1, "badFolder1", 2))
+    btn1_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img1.jpg", 1, "random_image", 3))
     # img2
     btn2_test = Button(root, text="TEST", width=30, command=partial(getresult, "img2.jpg", 0, 2, "testIMG2"))
     txt2_test = Label(root, text="")
-    btn2_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2"))
-    btn2_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2"))
-    btn2_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img2.jpg", 1, "random_image"))
+    btn2_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "goodFolder2", 4))
+    btn2_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img2.jpg", 1, "badFolder2", 5))
+    btn2_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img2.jpg", 1, "random_image", 6))
     # img3
     btn3_test = Button(root, text="TEST", width=30, command=partial(getresult, "img3.jpg", 0, 3, "testIMG3"))
     txt3_test = Label(root, text="")
-    btn3_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3"))
-    btn3_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3"))
-    btn3_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img3.jpg", 1, "random_image"))
+    btn3_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "goodFolder3", 7))
+    btn3_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img3.jpg", 1, "badFolder3", 8))
+    btn3_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img3.jpg", 1, "random_image", 9))
     # img4
     btn4_test = Button(root, text="TEST", width=30, command=partial(getresult, "img4.jpg", 0, 4, "testIMG4"))
     txt4_test = Label(root, text="")
-    btn4_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4"))
-    btn4_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4"))
-    btn4_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img4.jpg", 1, "random_image"))
+    btn4_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "goodFolder4", 10))
+    btn4_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img4.jpg", 1, "badFolder4", 11))
+    btn4_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img4.jpg", 1, "random_image", 12))
     # img5
     btn5_test = Button(root, text="TEST", width=30, command=partial(getresult, "img5.jpg", 0, 5, "testIMG5"))
     txt5_test = Label(root, text="")
-    btn5_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5"))
-    btn5_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5"))
-    btn5_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img5.jpg", 1, "random_image"))
+    btn5_addgood = Button(root, text="MARK AS SEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "goodFolder5", 13))
+    btn5_addbad = Button(root, text="MARK AS UNSEATED", width=30, command=partial(copytofolder, "img5.jpg", 1, "badFolder5", 14))
+    btn5_add_unclassified = Button(root, text="USELESS", width=30, command=partial(copytofolder, "img5.jpg", 1, "random_image", 15))
 
 
 def showclassificationbtns():
@@ -508,8 +701,6 @@ def hideclassificationbtns():
     btn3_unclassified.grid_forget()
     btn4_unclassified.grid_forget()
     btn5_unclassified.grid_forget()
-
-
 
 
 def showtestbtns():
