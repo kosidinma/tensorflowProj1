@@ -24,7 +24,14 @@ SCALAR_RED = (0.0, 0.0, 255.0)
 SCALAR_BLUE = (255.0, 0.0, 0.0)
 # initialize the window toolkit along with the two image panels
 root = Tk()
-#root.geometry("800x420")
+root.title("Classification Software V 2.0")
+
+# set root window to maximize screen
+w, h = root.winfo_screenwidth(), root.winfo_screenheight()
+root.geometry("%dx%d+0+0" % (w, h))
+
+statusbox = None
+
 panelA = None
 panelB = None
 panelC = None
@@ -272,7 +279,11 @@ class LoopImg:
 
 
 def getresult(myimgpath, num, textboxnum, testimgname):
+    pop_up_text("Testing....")  # notify status via textbox
+    statusbox.update()  # update force update GUI
+    time.sleep(0.1)  # make sure that GUI works
     hidetestbtns()  # don't allow any buttons to show while test is running
+    time.sleep(1)  # make sure that GUI works
     copytofolder(myimgpath, num, testimgname, None)  # button index not needed for test
     if not checkIfNecessaryPathsAndFilesExist():  # don't test if files/folders are invalid
         return
@@ -348,7 +359,10 @@ def getresult(myimgpath, num, textboxnum, testimgname):
     # tfFileWriter.add_graph(sess.graph)
     # tfFileWriter.close()
     showtestbtns()  # show the buttons again
-    popup_test(textboxnum, textstr)
+    time.sleep(0.1)  # make sure that GUI works
+    close_pop_up_text()   # close the text box
+    time.sleep(0.1)  # make sure that GUI works
+    popup_test_result(textboxnum, textstr)
 # end main
 
 
@@ -800,17 +814,31 @@ def rescaleimg(width, height, image):
     return newwidth, newheight
 
 
-def centerWindow(win):  # function to center tkinter window
-    # Gets the requested values of the height and width.
-    windowWidth = win.winfo_reqwidth()
-    windowHeight = win.winfo_reqheight()
+def centerWindow(win, stateLocal):  # function to center tkinter window, state is either local or global
+    global statusbox
+    if stateLocal:
+        # Gets the requested values of the height and width.
+        windowWidth = win.winfo_reqwidth()
+        windowHeight = win.winfo_reqheight()
 
-    # Gets both half the screen width/height and window width/height
-    positionRight = int(win.winfo_screenwidth() / 2.6 - windowWidth / 2)
-    positionDown = int(win.winfo_screenheight() / 3.5 - windowHeight / 2)
+        # Gets both half the screen width/height and window width/height
+        positionRight = int(win.winfo_screenwidth() / 2.6 - windowWidth / 2)
+        positionDown = int(win.winfo_screenheight() / 3.5 - windowHeight / 2)
 
-    # Positions the window in the center of the page.
-    win.geometry("+{}+{}".format(positionRight, positionDown))
+        # Positions the window in the center of the page.
+        win.geometry("+{}+{}".format(positionRight, positionDown))
+    else:
+        # Gets the requested values of the height and width.
+        windowWidth = statusbox.winfo_reqwidth()
+        windowHeight = statusbox.winfo_reqheight()
+
+        # Gets both half the screen width/height and window width/height
+        positionRight = int(statusbox.winfo_screenwidth() / 2.6 - windowWidth / 2)
+        positionDown = int(statusbox.winfo_screenheight() / 3.5 - windowHeight / 2)
+
+        # Positions the window in the center of the page.
+        statusbox.geometry("+{}+{}".format(positionRight, positionDown))
+
 
 def pop_up_init_(win):
     # button index map:
@@ -861,7 +889,7 @@ def pop_up_init_(win):
     btn5_add_unclassified = Button(win, text="USELESS", width=30, command=partial(copytofolder, "img5.jpg", 1, "random_image", 15))
 
 
-def popup_test(textboxnum, textstr):
+def popup_test_result(textboxnum, textstr):
     win = Toplevel()
     win.wm_title("Results For Camera: " + str(textboxnum))
     testimage = cv2.imread(os.getcwd() + '/test_images/testIMG' + str(textboxnum) + ".jpg")  # read file
@@ -883,7 +911,22 @@ def popup_test(textboxnum, textstr):
     showresultfeatures(textboxnum)
     b = Button(win, text="EXIT", command=win.destroy)
     b.grid(row=6, columnspan=2, column=0, padx=10, pady=10, sticky=W + E + N + S)
-    centerWindow(win)
+    centerWindow(win, True)  # local variable
+
+
+def pop_up_text(text):  # text to write, to close window or not
+    global statusbox
+    text = text.upper()  # capitalize
+    statusbox = Toplevel(bd=10, relief=RIDGE)  # add border and shading
+    statusbox.wm_title("")
+    statusbox.overrideredirect(True)  # don't allow user close window
+    txtBox = Label(statusbox, text=text, width=50)
+    txtBox.grid(row=0, column=0, rowspan=3, columnspan=2, padx=10, pady=50)
+    centerWindow(None, False)  # Feeding in global variable
+
+
+def close_pop_up_text():  # closes the text pop up window
+    statusbox.destroy()
 
 
 def main():
