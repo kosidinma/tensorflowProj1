@@ -30,7 +30,7 @@ root.title("Classification Software V 2.0")
 w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 root.geometry("%dx%d+0+0" % (w, h))
 
-statusbox = None
+statusbox = None  # pop up window
 
 panelA = None
 panelB = None
