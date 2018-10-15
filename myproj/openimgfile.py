@@ -843,6 +843,7 @@ def on_close():
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()
 
+
 def main():
     # get global references
     global testmodeCtrl
