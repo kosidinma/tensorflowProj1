@@ -1,8 +1,10 @@
 # tensorflow_image_classification_GUI_software
 Tensorflow Image Classification Project
 An image classifier software using google's inception model in tensorflow, openCV and python's tkinter GUI capabilities.
-Involves a lot of multi-threadng and resource control as well as server reads/writes
+Involves a lot of multi-threadng and resource control as well as server reads/writes.
 
+This project was created to explore tensorflow as I have a passion for computer vision and machine learning.
+Platform used is Windows.
 
 Quote from Quora:
 
