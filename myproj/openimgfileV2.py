@@ -32,6 +32,8 @@ root.geometry("%dx%d+0+0" % (w, h))
 
 statusbox = None  # pop up window
 
+
+# image display stuff
 panelA = None
 panelB = None
 panelC = None
@@ -278,8 +280,8 @@ class LoopImg:
         img_thread.start()
 
 
-def getresult(myimgpath, num, textboxnum, testimgname):
-    pop_up_text("Testing....")  # notify status via textbox
+def getresult(myimgpath, num, textboxnum, testimgname):  # function to handle testing
+    loadPromptPopUp("Testing....")  # notify status via textbox
     statusbox.update()  # update force update GUI
     time.sleep(0.1)  # make sure that GUI works
     hidetestbtns()  # don't allow any buttons to show while test is running
@@ -354,13 +356,9 @@ def getresult(myimgpath, num, textboxnum, testimgname):
             # end for
         # end for
     # end with
-    # write the graph to file so we can view with TensorBoard
-    # tfFileWriter = tf.summary.FileWriter(os.getcwd())
-    # tfFileWriter.add_graph(sess.graph)
-    # tfFileWriter.close()
     showtestbtns()  # show the buttons again
     time.sleep(0.1)  # make sure that GUI works
-    close_pop_up_text()   # close the text box
+    close_loadPromptPopUp()   # close the text box
     time.sleep(0.1)  # make sure that GUI works
     popup_test_result(textboxnum, textstr)
 # end main
@@ -510,6 +508,7 @@ def buttonIsBusy(btnIndx):
         return False
 
 
+# function to put results in textbox
 def updateResults(textboxnum, textstr):
     # get global references
     global btn1_test, btn2_test, btn3_test, btn4_test, btn5_test
@@ -524,6 +523,8 @@ def updateResults(textboxnum, textstr):
     elif textboxnum == 5:
         txt5_test["text"] = textstr
 
+
+# unused....function to clear test results
 def clearResults():
     # get global references
     global txt1_test, txt2_test, txt3_test, txt4_test, txt5_test
@@ -534,6 +535,7 @@ def clearResults():
     txt5_test["text"] = ""
 
 
+# function to make sure files exist before testing
 def checkIfNecessaryPathsAndFilesExist():
     if not os.path.exists(TEST_IMAGES_DIR):
         print('')
@@ -553,6 +555,7 @@ def checkIfNecessaryPathsAndFilesExist():
     return True
 
 
+# function to copy stuff to folders
 def copytofolder(myimgpath, num, folderpath, btnindex):
     # num = 1 ===> training path, anything else => testing path
     myimgpath = os.getcwd() + "/" + myimgpath
@@ -578,6 +581,7 @@ def copytofolder(myimgpath, num, folderpath, btnindex):
         shutil.copy(myimgpath, folderpath)
 
 
+# function to initialise clssification buttons
 def classificationbtn_init_():
 
     # button index map:
@@ -629,7 +633,7 @@ def classificationbtn_init_():
                                command=partial(copytofolder, "img5.jpg", 1, "random_image", 15))
 
 
-
+# function to initialise test buttons
 def testbtn_init_():
     # button index map:
     # btn1_good or add_good = 1
@@ -662,6 +666,7 @@ def testbtn_init_():
     btn5_test = Button(root, text="TEST", width=30, command=partial(getresult, "img5.jpg", 0, 5, "testIMG5"))
 
 
+# function to show classification buttons
 def showclassificationbtns():
     # get global references
     global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
@@ -688,6 +693,7 @@ def showclassificationbtns():
     btn5_bad.grid(row=9, column=4, padx="10", pady="10")
 
 
+# function to hide classification buttons
 def hideclassificationbtns():
     # get global references
     global btn1_bad, btn1_good, btn2_bad, btn2_good, btn3_bad, btn3_good, btn4_bad, btn4_good, btn5_bad, btn5_good, \
@@ -709,6 +715,7 @@ def hideclassificationbtns():
     btn5_unclassified.grid_forget()
 
 
+# function to show test buttons
 def showtestbtns():
     # get global references
     global btn1_test, btn2_test, btn3_test, btn4_test, btn5_test
@@ -719,6 +726,7 @@ def showtestbtns():
     btn5_test.grid(row=9, column=3, columnspan=2, padx="10", pady="10")
 
 
+# function to show test result popup features
 def showresultfeatures(textboxnum):
     # get global references
     global txt1_test, btn1_addgood, btn1_addbad, txt2_test, btn2_addgood, btn2_addbad, txt3_test, btn3_addgood,\
@@ -751,6 +759,7 @@ def showresultfeatures(textboxnum):
         btn5_add_unclassified.grid(row=5, column=1, padx="10", pady="10", sticky=W)
 
 
+# function to hide test buttons
 def hidetestbtns():
     # get global references
     global btn1_test, txt1_test, btn1_addgood, btn1_addbad, btn2_test, txt2_test, btn2_addgood, btn2_addbad, btn3_test,\
@@ -758,32 +767,13 @@ def hidetestbtns():
         btn5_addgood, btn5_addbad, btn1_add_unclassified, btn2_add_unclassified, btn3_add_unclassified, \
         btn4_add_unclassified, btn5_add_unclassified
     btn1_test.grid_forget()
-    # txt1_test.grid_forget()
-    # btn1_addgood.grid_forget()
-    # btn1_addbad.grid_forget()
     btn2_test.grid_forget()
-    # txt2_test.grid_forget()
-    # btn2_addgood.grid_forget()
-    # btn2_addbad.grid_forget()
     btn3_test.grid_forget()
-    # txt3_test.grid_forget()
-    # btn3_addgood.grid_forget()
-    # btn3_addbad.grid_forget()
     btn4_test.grid_forget()
-    # txt4_test.grid_forget()
-    # btn4_addgood.grid_forget()
-    # btn4_addbad.grid_forget()
     btn5_test.grid_forget()
-    # txt5_test.grid_forget()
-    # btn5_addgood.grid_forget()
-    # btn5_addbad.grid_forget()
-    # btn1_add_unclassified.grid_forget()
-    # btn2_add_unclassified.grid_forget()
-    # btn3_add_unclassified.grid_forget()
-    # btn4_add_unclassified.grid_forget()
-    # btn5_add_unclassified.grid_forget()
 
 
+# toggle control for hiding/showing buttons
 def show_hide_btns():
     # get global references
     global testmodeCtrl
@@ -840,7 +830,7 @@ def centerWindow(win, stateLocal):  # function to center tkinter window, state i
         statusbox.geometry("+{}+{}".format(positionRight, positionDown))
 
 
-def pop_up_init_(win):
+def pop_up_init_(win):  # function to initialise test result popup children
     # button index map:
     # btn1_good or add_good = 1
     # btn1_bad or add_bad = 2
@@ -889,6 +879,7 @@ def pop_up_init_(win):
     btn5_add_unclassified = Button(win, text="USELESS", width=30, command=partial(copytofolder, "img5.jpg", 1, "random_image", 15))
 
 
+# function to show test result popup
 def popup_test_result(textboxnum, textstr):
     win = Toplevel()
     win.wm_title("Results For Camera: " + str(textboxnum))
@@ -914,7 +905,7 @@ def popup_test_result(textboxnum, textstr):
     centerWindow(win, True)  # local variable
 
 
-def pop_up_text(text):  # text to write, to close window or not
+def loadPromptPopUp(text):  # function to show loading prompt
     global statusbox
     text = text.upper()  # capitalize
     statusbox = Toplevel(bd=10, relief=RIDGE)  # add border and shading
@@ -925,7 +916,7 @@ def pop_up_text(text):  # text to write, to close window or not
     centerWindow(None, False)  # Feeding in global variable
 
 
-def close_pop_up_text():  # closes the text pop up window
+def close_loadPromptPopUp():  # closes the text loading prompt window
     statusbox.destroy()
 
 
