@@ -53,9 +53,18 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="880356343">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -108,7 +117,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/myproj" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
@@ -176,7 +185,7 @@
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21858217" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22180451" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -189,7 +198,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49924472" weight="0.30011326" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007553" side_tool="true" weight="0.32848486" />
-      <window_info anchor="bottom" id="Python Console" order="10" visible="true" weight="0.32842582" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.32842582" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -202,12 +211,6 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/Scripts/tensortestfile" />
-    <entry file="file://$PROJECT_DIR$/venv/tensortest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/tensortest.py" />
   </component>
 </project>

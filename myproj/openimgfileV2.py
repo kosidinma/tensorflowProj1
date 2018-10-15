@@ -925,11 +925,11 @@ def main():
     global testmodeCtrl
 
     # set urls
-    url1 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=09ddfacb-ed1f-23bb-65a9-c42f9ccdfb11&time=latest&rotate=180&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json"
-    url2 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=a30471e7-ebdd-ddb3-06f6-d4b465e0dfae&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json"
-    url3 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=238eec33-0fe4-97b5-1013-9e503b9b5882&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json"
-    url4 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=dd18d158-c192-9e19-3b67-05e20742d105&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json"
-    url5 = "http://scada:scada@rno03p1nwoap01.teslamotors.com:7001/ec2/cameraThumbnail?cameraId=75061ddd-ba25-286a-be39-dcbce5fb5e67&time=latest&rotate=0&imageFormat=jpg&roundMethod=after&aspectRatio=auto&format=json"
+    url1 = "insert webcam URL here"
+    url2 = "insert webcam URL here"
+    url3 = "insert webcam URL here"
+    url4 = "insert webcam URL here"
+    url5 = "insert webcam URL here"
 
     # set image directories
     imagedir1 = "img1.jpg"
